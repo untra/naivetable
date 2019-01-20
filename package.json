@@ -16,8 +16,8 @@
     "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec",
     "ci": "npm run lint && npm run build && npm run cover"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Samuel Volin @untra",
+  "license": "MIT",
   "dependencies": {
     "typescript": "3.2.4",
     "react": "16.7.0",
