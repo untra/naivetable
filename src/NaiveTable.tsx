@@ -1,3 +1,5 @@
+import * as React from "react";
+
 interface TableConfigOptions {
   sizing?: "grid" | "flex";
 }
@@ -81,7 +83,7 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
   public render() {
     const { options, headers, data } = this.state;
     const renderHeader = (header: TableConfigHeader, index: number) => (
-      <th key={index}>{header.label}</th>
+      <div key={index}>{header.label}</div>
     );
     const renderDataRow = (dataObj: DataObj) => (
       header: TableConfigHeader,
@@ -90,24 +92,24 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
       const render = header.render || defaultRenderFunc;
       const style = header.style || defaultStyle;
       const dataVal: any = header.dataKey ? dataObj[header.dataKey] : data;
-      return <td key={index}>{render(dataVal, style)}</td>;
+      return <div key={index}>{render(dataVal, style)}</div>;
     };
 
     const renderDataBody = (tableHeaders: TableConfigHeader[]) => (
       dataObj: DataObj,
       indexr: number
-    ) => (
-      <tr key={indexr}>{() => tableHeaders.forEach(renderDataRow(dataObj))}</tr>
-    );
+    ) => <div key={indexr}>{tableHeaders.map(renderDataRow(dataObj))}</div>;
 
     // todo: sort data if approps
-    const renderHeaders = <tr>{() => headers.forEach(renderHeader)}</tr>;
-    const renderBody = <div>{() => data.forEach(renderDataBody(headers))}</div>;
+    const renderHeaders = <div>{headers.map(renderHeader)}</div>;
+    const renderBody = <div>{data.map(renderDataBody(headers))}</div>;
     return (
-      <table>
+      <div>
         {renderHeaders}
         {renderBody}
-      </table>
+      </div>
     );
   }
 }
+
+export default NaiveTable;

@@ -14,26 +14,35 @@
     "docs": "typedoc --out docs src",
     "gh-pages": "rimraf docs && npm run docs && gh-pages -d docs",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec",
-    "ci": "npm run lint && npm run build && npm run cover"
+    "ci": "npm run lint && npm run build && npm run cover",
+    "start": "yarn build && webpack-dev-server src/index.js"
   },
   "author": "Samuel Volin @untra",
   "license": "MIT",
   "dependencies": {
-    "typescript": "3.2.4",
     "react": "16.7.0",
     "react-dom": "16.7.0"
   },
   "devDependencies": {
-    "@types/react": "16.7.20",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-react": "^7.0.0",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.18",
+    "@types/react": "16.7.20",
+    "@types/react-dom": "^16.0.11",
+    "babel-loader": "^8.0.5",
     "chai": "^4.2.0",
     "gh-pages": "^2.0.1",
     "mocha": "^5.2.0",
     "tslint": "^5.12.1",
+    "css-loader": "^0.28.11",
+    "html-loader": "^0.5.5",
     "tslint-config-prettier": "^1.17.0",
+    "html-webpack-plugin": "^3.2.0",
     "typedoc": "^0.14.1",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.4",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
   }
 }
