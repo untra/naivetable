@@ -1,14 +1,15 @@
 workflow "New workflow" {
   on = "push"
-  resolves = ["Filters for GitHub Actions"]
+  resolves = ["FilterNext"]
 }
 
-action "Filters for GitHub Actions" {
+action "FilterMaster" {
   uses = "actions/bin/filter@master"
   args = "branch master"
 }
 
-action "Filters for GitHub Actionssss" {
+action "FilterNext" {
+  needs = "FilterMaster"
   uses = "actions/bin/filter@master"
   args = "branch master"
 }
