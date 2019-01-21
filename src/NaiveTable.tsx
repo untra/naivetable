@@ -18,7 +18,7 @@ const defaultHeaderStyle: React.CSSProperties = {
 };
 
 interface DataObj {
-  [index: string]: unknown;
+  [index: string]: any;
 }
 
 interface TableConfigHeader {
@@ -28,10 +28,10 @@ interface TableConfigHeader {
   // if set to '' (empty string) the whole data object will be sent to the render function
   dataKey?: string;
   width?: string;
-  render?: (data: unknown) => JSX.Element;
+  render?: (data: any) => JSX.Element;
 }
 
-const defaultRenderFunc = (data: unknown) => <span>{`${data}`}</span>;
+const defaultRenderFunc = (data: any) => <span>{`${data}`}</span>;
 
 const defaultHeaders: TableConfigHeader = {
   dataKey: "",
@@ -83,7 +83,12 @@ const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
   }
   return [];
 };
-
+/**
+ * The css to render the 'grid' value is calculted here.
+ * For example, three headers
+ *
+ * @param {TableConfigHeader[]} headers
+ */
 const headerColumnWidths = (headers: TableConfigHeader[]) =>
   headers.reduce((acc, header) => `${acc} ${header.width} `, "");
 
@@ -91,7 +96,7 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
   constructor(props: TableConfigProps) {
     super(props);
     // passed in options shadow the default options
-    const includeIndex = props.includeIndex || true;
+    const includeIndex = props.includeIndex || false;
     const cellStyle = { ...defaultCellStyle, ...props.cellStyle };
     const headerStyle = { ...defaultHeaderStyle, ...props.headerStyle };
     const tableStyle = { ...defaultTableStyle, ...props.tableStyle };
@@ -131,8 +136,9 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
       dataObj: DataObj,
       index: number
     ) => {
-      const { dataKey } = header;
-      const render = header.render || defaultRenderFunc;
+      const { dataKey, render } = header;
+      // if the user specified a render function, use that
+      const renderRow = render || defaultRenderFunc;
       // if a datakey isn't provided
       const dataVal: any = !dataKey
         ? // supply the entire data blob
@@ -142,10 +148,11 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
         ? // supply the offset row index
           index + 1
         : // otherwise supply the row data at the given dataKey
+          // emphasize: we want return 'undefined' here if undefined
           dataObj[dataKey];
       return (
         <div key={index} style={cellStyle}>
-          {render(dataVal)}
+          {renderRow(dataVal)}
         </div>
       );
     };
