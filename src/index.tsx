@@ -23,6 +23,46 @@ const data = [
     foo: "alpha",
     bar: "beta",
     baz: "gamma"
+  },
+  {
+    foo: "alpha",
+    bar: "beta",
+    baz: "gamma"
+  },
+  {
+    foo: "alpha",
+    bar: "beta",
+    baz: "gamma"
+  },
+  {
+    foo: "alpha",
+    bar: "beta",
+    baz: "gamma"
+  },
+  {
+    foo: "alpha",
+    bar: "beta",
+    baz: "gamma"
+  },
+  {
+    foo: "alpha",
+    bar: "beta",
+    baz: "gamma"
+  },
+  {
+    foo: "alpha",
+    bar: "beta",
+    baz: "gamma"
+  },
+  {
+    foo: "alpha",
+    bar: "beta",
+    baz: "gamma"
+  },
+  {
+    foo: "xalpha",
+    bar: "xbeta",
+    baz: "xgamma"
   }
 ];
 

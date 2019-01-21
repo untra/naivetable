@@ -1,31 +1,20 @@
 import * as React from "react";
+const indexDataKey = "'index'";
 
-interface TableConfigOptions {
-  includeIndex?: boolean;
-  tableStyle?: React.CSSProperties;
-  headerStyle?: React.CSSProperties;
-  cellStyle?: React.CSSProperties;
-}
-const tableStyle: React.CSSProperties = {
+const defaultTableStyle: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: "",
   borderTop: "1px solid black",
   borderRight: "1px solid black"
 };
-const cellStyle: React.CSSProperties = {
+const defaultCellStyle: React.CSSProperties = {
   padding: "8px 4px",
   borderLeft: "1px solid black",
   borderBottom: "1px solid black"
 };
-const headerStyle: React.CSSProperties = {
-  ...cellStyle,
+const defaultHeaderStyle: React.CSSProperties = {
+  ...defaultCellStyle,
   fontWeight: "bold"
-};
-const defaultOptions: TableConfigOptions = {
-  includeIndex: false,
-  tableStyle,
-  headerStyle,
-  cellStyle
 };
 
 interface DataObj {
@@ -52,20 +41,33 @@ const defaultHeaders: TableConfigHeader = {
 };
 
 interface TableConfigProps {
-  options?: TableConfigOptions;
-  headers?: TableConfigHeader[];
   data: DataObj[];
+  headers?: TableConfigHeader[];
+  includeIndex?: boolean;
+  tableStyle?: React.CSSProperties;
+  headerStyle?: React.CSSProperties;
+  cellStyle?: React.CSSProperties;
 }
 
 interface TableConfigState {
-  options: TableConfigOptions;
-  headers: TableConfigHeader[];
   data: DataObj[];
+  headers: TableConfigHeader[];
+  includeIndex: boolean;
+  tableStyle: React.CSSProperties;
+  headerStyle: React.CSSProperties;
+  cellStyle: React.CSSProperties;
 }
 
 type NaiveTableProps = TableConfigProps;
 
 type NaiveTableState = TableConfigState;
+
+const indexHeader: TableConfigHeader = {
+  dataKey: indexDataKey,
+  label: "#",
+  width: "auto",
+  render: defaultRenderFunc
+};
 
 const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
   const paragon = data[0];
@@ -89,26 +91,39 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
   constructor(props: TableConfigProps) {
     super(props);
     // passed in options shadow the default options
-    const options = { ...defaultOptions, ...props.options };
+    const includeIndex = props.includeIndex || true;
+    const cellStyle = { ...defaultCellStyle, ...props.cellStyle };
+    const headerStyle = { ...defaultHeaderStyle, ...props.headerStyle };
+    const tableStyle = { ...defaultTableStyle, ...props.tableStyle };
+
     // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
     const data = props.data || [];
     // if headers are not defined, infer from data keys
-    const headers = props.headers ? props.headers : inferHeadersFromData(data);
+    const incIndexHeader: TableConfigHeader[] = includeIndex
+      ? [indexHeader]
+      : [];
+    const incHeaders = props.headers
+      ? props.headers
+      : inferHeadersFromData(data);
+    const headers = [...incIndexHeader, ...incHeaders];
 
     this.state = {
-      options,
       headers,
-      data
+      data,
+      includeIndex,
+      cellStyle,
+      headerStyle,
+      tableStyle
     };
   }
 
   public render() {
-    const { options, headers, data } = this.state;
+    const { headers, data, tableStyle, headerStyle, cellStyle } = this.state;
     // the gridStyle is injected into the table dynamically
     const gridTemplateColumns = headerColumnWidths(headers);
-    const gridStyle = { ...options.tableStyle, gridTemplateColumns };
+    const gridStyle = { ...tableStyle, gridTemplateColumns };
     const renderHeader = (header: TableConfigHeader, index: number) => (
-      <span key={index} style={options.headerStyle}>
+      <span key={index} style={headerStyle}>
         {header.label}
       </span>
     );
@@ -116,10 +131,20 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
       dataObj: DataObj,
       index: number
     ) => {
+      const { dataKey } = header;
       const render = header.render || defaultRenderFunc;
-      const dataVal: any = header.dataKey ? dataObj[header.dataKey] : data;
+      // if a datakey isn't provided
+      const dataVal: any = !dataKey
+        ? // supply the entire data blob
+          data
+        : // otherwise if the key is the special 'index' dataKey
+        dataKey === indexDataKey
+        ? // supply the offset row index
+          index + 1
+        : // otherwise supply the row data at the given dataKey
+          dataObj[dataKey];
       return (
-        <div key={index} style={options.cellStyle}>
+        <div key={index} style={cellStyle}>
           {render(dataVal)}
         </div>
       );
@@ -130,19 +155,13 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
       indexr: number
     ) => <div key={indexr}>{tableData.map(renderDataRow(tableHeader))}</div>;
 
-    // todo: sort data if approps
-    const renderHeaders = (
-      <div style={gridStyle}>{headers.map(renderHeader)}</div>
-    );
     const renderBody = (
-      <div style={gridStyle}>{headers.map(renderDataBody(data))}</div>
-    );
-    return (
-      <div>
-        {renderHeaders}
-        {renderBody}
+      <div style={gridStyle}>
+        {headers.map(renderHeader)}
+        {headers.map(renderDataBody(data))}
       </div>
     );
+    return <div>{renderBody}</div>;
   }
 }
 

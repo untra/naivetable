@@ -8,29 +8,30 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
-const tableStyle = {
+const indexDataKey = "'index'";
+const defaultTableStyle = {
     display: "grid",
     gridTemplateColumns: "",
     borderTop: "1px solid black",
     borderRight: "1px solid black"
 };
-const cellStyle = {
+const defaultCellStyle = {
     padding: "8px 4px",
     borderLeft: "1px solid black",
     borderBottom: "1px solid black"
 };
-const headerStyle = Object.assign({}, cellStyle, { fontWeight: "bold" });
-const defaultOptions = {
-    includeIndex: false,
-    tableStyle,
-    headerStyle,
-    cellStyle
-};
+const defaultHeaderStyle = Object.assign({}, defaultCellStyle, { fontWeight: "bold" });
 const defaultRenderFunc = (data) => React.createElement("span", null, `${data}`);
 const defaultHeaders = {
     dataKey: "",
     label: "",
     width: "1fr",
+    render: defaultRenderFunc
+};
+const indexHeader = {
+    dataKey: indexDataKey,
+    label: "#",
+    width: "auto",
     render: defaultRenderFunc
 };
 const inferHeadersFromData = (data) => {
@@ -48,35 +49,57 @@ class NaiveTable extends React.Component {
     constructor(props) {
         super(props);
         // passed in options shadow the default options
-        const options = Object.assign({}, defaultOptions, props.options);
+        const includeIndex = props.includeIndex || true;
+        const cellStyle = Object.assign({}, defaultCellStyle, props.cellStyle);
+        const headerStyle = Object.assign({}, defaultHeaderStyle, props.headerStyle);
+        const tableStyle = Object.assign({}, defaultTableStyle, props.tableStyle);
         // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
         const data = props.data || [];
         // if headers are not defined, infer from data keys
-        const headers = props.headers ? props.headers : inferHeadersFromData(data);
+        const incIndexHeader = includeIndex
+            ? [indexHeader]
+            : [];
+        const incHeaders = props.headers
+            ? props.headers
+            : inferHeadersFromData(data);
+        const headers = [...incIndexHeader, ...incHeaders];
         this.state = {
-            options,
             headers,
-            data
+            data,
+            includeIndex,
+            cellStyle,
+            headerStyle,
+            tableStyle
         };
     }
     render() {
-        const { options, headers, data } = this.state;
+        const { headers, data, tableStyle, headerStyle, cellStyle } = this.state;
         // the gridStyle is injected into the table dynamically
         const gridTemplateColumns = headerColumnWidths(headers);
-        const gridStyle = Object.assign({}, options.tableStyle, { gridTemplateColumns });
-        const renderHeader = (header, index) => (React.createElement("span", { key: index, style: options.headerStyle }, header.label));
+        const gridStyle = Object.assign({}, tableStyle, { gridTemplateColumns });
+        const renderHeader = (header, index) => (React.createElement("span", { key: index, style: headerStyle }, header.label));
         const renderDataRow = (header) => (dataObj, index) => {
+            const { dataKey } = header;
             const render = header.render || defaultRenderFunc;
-            const dataVal = header.dataKey ? dataObj[header.dataKey] : data;
-            return (React.createElement("div", { key: index, style: options.cellStyle }, render(dataVal)));
+            // if a datakey isn't provided
+            const dataVal = !dataKey
+                ? // supply the entire data blob
+                    data
+                : // otherwise if the key is the special 'index' dataKey
+                    dataKey === indexDataKey
+                        ? // supply the offset row index
+                            index + 1
+                        : // otherwise supply the row data at the given dataKey
+                            dataObj[dataKey];
+            return (React.createElement("div", { key: index, style: cellStyle }, render(dataVal)));
         };
         const renderDataBody = (tableData) => (tableHeader, indexr) => React.createElement("div", { key: indexr }, tableData.map(renderDataRow(tableHeader)));
         // todo: sort data if approps
         const renderHeaders = (React.createElement("div", { style: gridStyle }, headers.map(renderHeader)));
-        const renderBody = (React.createElement("div", { style: gridStyle }, headers.map(renderDataBody(data))));
-        return (React.createElement("div", null,
-            renderHeaders,
-            renderBody));
+        const renderBody = (React.createElement("div", { style: gridStyle },
+            headers.map(renderHeader),
+            headers.map(renderDataBody(data))));
+        return React.createElement("div", null, renderBody);
     }
 }
 exports.default = NaiveTable;
