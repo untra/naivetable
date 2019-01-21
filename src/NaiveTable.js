@@ -8,17 +8,30 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
-const defaultOptions = { sizing: "grid" };
-const defaultStyle = {
-    backgroundColor: "#eee",
-    color: "#111"
+const tableStyle = {
+    display: "grid",
+    gridTemplateColumns: "",
+    borderTop: "1px solid black",
+    borderRight: "1px solid black"
 };
-const defaultRenderFunc = (data, styles) => (React.createElement("p", { style: styles }, `${data}`));
+const cellStyle = {
+    padding: "8px 4px",
+    borderLeft: "1px solid black",
+    borderBottom: "1px solid black"
+};
+const headerStyle = Object.assign({}, cellStyle, { fontWeight: "bold" });
+const defaultOptions = {
+    includeIndex: false,
+    tableStyle,
+    headerStyle,
+    cellStyle
+};
+const defaultRenderFunc = (data) => React.createElement("span", null, `${data}`);
 const defaultHeaders = {
     dataKey: "",
     label: "",
-    render: defaultRenderFunc,
-    style: defaultStyle
+    width: "1fr",
+    render: defaultRenderFunc
 };
 const inferHeadersFromData = (data) => {
     const paragon = data[0];
@@ -30,6 +43,7 @@ const inferHeadersFromData = (data) => {
     }
     return [];
 };
+const headerColumnWidths = (headers) => headers.reduce((acc, header) => `${acc} ${header.width} `, "");
 class NaiveTable extends React.Component {
     constructor(props) {
         super(props);
@@ -47,17 +61,19 @@ class NaiveTable extends React.Component {
     }
     render() {
         const { options, headers, data } = this.state;
-        const renderHeader = (header, index) => (React.createElement("div", { key: index }, header.label));
-        const renderDataRow = (dataObj) => (header, index) => {
+        // the gridStyle is injected into the table dynamically
+        const gridTemplateColumns = headerColumnWidths(headers);
+        const gridStyle = Object.assign({}, options.tableStyle, { gridTemplateColumns });
+        const renderHeader = (header, index) => (React.createElement("span", { key: index, style: options.headerStyle }, header.label));
+        const renderDataRow = (header) => (dataObj, index) => {
             const render = header.render || defaultRenderFunc;
-            const style = header.style || defaultStyle;
             const dataVal = header.dataKey ? dataObj[header.dataKey] : data;
-            return React.createElement("div", { key: index }, render(dataVal, style));
+            return (React.createElement("div", { key: index, style: options.cellStyle }, render(dataVal)));
         };
-        const renderDataBody = (tableHeaders) => (dataObj, indexr) => React.createElement("div", { key: indexr }, tableHeaders.map(renderDataRow(dataObj)));
+        const renderDataBody = (tableData) => (tableHeader, indexr) => React.createElement("div", { key: indexr }, tableData.map(renderDataRow(tableHeader)));
         // todo: sort data if approps
-        const renderHeaders = React.createElement("div", null, headers.map(renderHeader));
-        const renderBody = React.createElement("div", null, data.map(renderDataBody(headers)));
+        const renderHeaders = (React.createElement("div", { style: gridStyle }, headers.map(renderHeader)));
+        const renderBody = (React.createElement("div", { style: gridStyle }, headers.map(renderDataBody(data))));
         return (React.createElement("div", null,
             renderHeaders,
             renderBody));

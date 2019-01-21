@@ -18,6 +18,11 @@ const data = [
     foo: 7,
     bar: 8,
     baz: 9
+  },
+  {
+    foo: "alpha",
+    bar: "beta",
+    baz: "gamma"
   }
 ];
 

@@ -1,9 +1,32 @@
 import * as React from "react";
 
 interface TableConfigOptions {
-  sizing?: "grid" | "flex";
+  includeIndex?: boolean;
+  tableStyle?: React.CSSProperties;
+  headerStyle?: React.CSSProperties;
+  cellStyle?: React.CSSProperties;
 }
-const defaultOptions: TableConfigOptions = { sizing: "grid" };
+const tableStyle: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "",
+  borderTop: "1px solid black",
+  borderRight: "1px solid black"
+};
+const cellStyle: React.CSSProperties = {
+  padding: "8px 4px",
+  borderLeft: "1px solid black",
+  borderBottom: "1px solid black"
+};
+const headerStyle: React.CSSProperties = {
+  ...cellStyle,
+  fontWeight: "bold"
+};
+const defaultOptions: TableConfigOptions = {
+  includeIndex: false,
+  tableStyle,
+  headerStyle,
+  cellStyle
+};
 
 interface DataObj {
   [index: string]: unknown;
@@ -15,22 +38,17 @@ interface TableConfigHeader {
   // this is the dataKey that is referenced on the data object when displaying this row
   // if set to '' (empty string) the whole data object will be sent to the render function
   dataKey?: string;
-  style?: React.CSSProperties;
-  render?: (data: unknown, styles: React.CSSProperties) => JSX.Element;
+  width?: string;
+  render?: (data: unknown) => JSX.Element;
 }
-const defaultStyle: React.CSSProperties = {
-  backgroundColor: "#eee",
-  color: "#111"
-};
-const defaultRenderFunc = (data: unknown, styles: React.CSSProperties) => (
-  <p style={styles}>{`${data}`}</p>
-);
+
+const defaultRenderFunc = (data: unknown) => <span>{`${data}`}</span>;
 
 const defaultHeaders: TableConfigHeader = {
   dataKey: "",
   label: "",
-  render: defaultRenderFunc,
-  style: defaultStyle
+  width: "1fr",
+  render: defaultRenderFunc
 };
 
 interface TableConfigProps {
@@ -64,6 +82,9 @@ const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
   return [];
 };
 
+const headerColumnWidths = (headers: TableConfigHeader[]) =>
+  headers.reduce((acc, header) => `${acc} ${header.width} `, "");
+
 class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
   constructor(props: TableConfigProps) {
     super(props);
@@ -80,29 +101,42 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
       data
     };
   }
+
   public render() {
     const { options, headers, data } = this.state;
+    // the gridStyle is injected into the table dynamically
+    const gridTemplateColumns = headerColumnWidths(headers);
+    const gridStyle = { ...options.tableStyle, gridTemplateColumns };
     const renderHeader = (header: TableConfigHeader, index: number) => (
-      <div key={index}>{header.label}</div>
+      <span key={index} style={options.headerStyle}>
+        {header.label}
+      </span>
     );
-    const renderDataRow = (dataObj: DataObj) => (
-      header: TableConfigHeader,
+    const renderDataRow = (header: TableConfigHeader) => (
+      dataObj: DataObj,
       index: number
     ) => {
       const render = header.render || defaultRenderFunc;
-      const style = header.style || defaultStyle;
       const dataVal: any = header.dataKey ? dataObj[header.dataKey] : data;
-      return <div key={index}>{render(dataVal, style)}</div>;
+      return (
+        <div key={index} style={options.cellStyle}>
+          {render(dataVal)}
+        </div>
+      );
     };
 
-    const renderDataBody = (tableHeaders: TableConfigHeader[]) => (
-      dataObj: DataObj,
+    const renderDataBody = (tableData: DataObj[]) => (
+      tableHeader: TableConfigHeader,
       indexr: number
-    ) => <div key={indexr}>{tableHeaders.map(renderDataRow(dataObj))}</div>;
+    ) => <div key={indexr}>{tableData.map(renderDataRow(tableHeader))}</div>;
 
     // todo: sort data if approps
-    const renderHeaders = <div>{headers.map(renderHeader)}</div>;
-    const renderBody = <div>{data.map(renderDataBody(headers))}</div>;
+    const renderHeaders = (
+      <div style={gridStyle}>{headers.map(renderHeader)}</div>
+    );
+    const renderBody = (
+      <div style={gridStyle}>{headers.map(renderDataBody(data))}</div>
+    );
     return (
       <div>
         {renderHeaders}
