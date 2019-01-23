@@ -19,7 +19,13 @@ const blamDataRows = (headers: string[], nToGen: number) => {
   return rows;
 };
 
-const data = blamDataRows(["foo", "bar", "baz"], 2000);
+// const data = blamDataRows(["foo", "bar", "baz"], 2000);
+const data = [
+  { foo: 1, bar: 2, baz: 3 },
+  { foo: 4, bar: 5, baz: 6 },
+  { foo: 7, bar: 8, baz: 9 },
+  { foo: "a", bar: "b", baz: "c" }
+];
 
 class App extends React.Component<{}> {
   constructor(props: object) {
