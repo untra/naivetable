@@ -9,6 +9,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const indexDataKey = "'index'";
+var sortDir;
+(function (sortDir) {
+    sortDir["asc"] = "asc";
+    sortDir["dsc"] = "dsc";
+})(sortDir = exports.sortDir || (exports.sortDir = {}));
+const f = sortDir.asc;
 const defaultTableStyle = {
     display: "grid",
     gridTemplateColumns: "",
@@ -25,7 +31,8 @@ const defaultHeaders = {
     dataKey: "",
     label: "",
     width: "1fr",
-    render: defaultRenderFunc
+    render: defaultRenderFunc,
+    sort: false
 };
 const indexHeader = {
     dataKey: indexDataKey,
@@ -45,11 +52,10 @@ const inferHeadersFromData = (data) => {
 };
 /**
  * The css to render the 'grid' value is calculted here.
- * For example, three headers
- *
+ * For example, three default headers should return '1fr 1fr 1fr'
  * @param {TableConfigHeader[]} headers
  */
-const headerColumnWidths = (headers) => headers.reduce((acc, header) => `${acc} ${header.width} `, "");
+const headerColumnWidths = (headers) => headers.reduce((acc, header) => `${acc} ${header.width || "auto"} `, "");
 class NaiveTable extends React.Component {
     constructor(props) {
         super(props);
@@ -58,6 +64,7 @@ class NaiveTable extends React.Component {
         const cellStyle = Object.assign({}, defaultCellStyle, props.cellStyle);
         const tableStyle = Object.assign({}, defaultTableStyle, props.tableStyle);
         // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
+        // TODO: check that data.length < 1000, and error otherwise
         const data = props.data || [];
         // if headers are not defined, infer from data keys
         const incIndexHeader = includeIndex
@@ -80,8 +87,20 @@ class NaiveTable extends React.Component {
         // the gridStyle is injected into the table dynamically
         const gridTemplateColumns = headerColumnWidths(headers);
         const gridStyle = Object.assign({}, tableStyle, { gridTemplateColumns });
-        const renderHeader = (header, index) => (React.createElement("span", { key: index, style: cellStyle },
-            React.createElement("strong", null, header.label)));
+        const renderHeader = (header, index) => {
+            const { sort, label } = header;
+            const arrow = sort === sortDir.asc
+                ? "▼"
+                : sort === sortDir.dsc
+                    ? "▲"
+                    : sort === true
+                        ? "⇕"
+                        : "";
+            return (React.createElement("span", { key: index, style: cellStyle },
+                label,
+                " ",
+                React.createElement("p", { style: { float: "right" } }, arrow)));
+        };
         const renderDataRow = (dataObj, indexr) => (header, index) => {
             const { dataKey, render } = header;
             // if the user specified a render function, use that
@@ -99,9 +118,7 @@ class NaiveTable extends React.Component {
                             dataObj[dataKey];
             return (React.createElement("span", { key: index, style: cellStyle }, renderRow(dataVal)));
         };
-        const renderDataRows = (tableHeaders) => (tableData, indexr) => {
-            return tableHeaders.map(renderDataRow(tableData, indexr));
-        };
+        const renderDataRows = (tableHeaders) => (tableData, indexr) => tableHeaders.map(renderDataRow(tableData, indexr));
         const renderBody = (React.createElement("div", { style: gridStyle },
             headers.map(renderHeader),
             data.map(renderDataRows(headers))));

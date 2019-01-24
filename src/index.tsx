@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 
-import NaiveTable from "./NaiveTable";
+import NaiveTable, { sortDir } from "./NaiveTable";
 
 interface DataObj {
   [index: string]: any;
@@ -29,12 +29,12 @@ const hheaders = [
   {
     label: "bar",
     dataKey: "bar",
-    sort: true
+    sort: sortDir.asc
   },
   {
     label: "baz",
     dataKey: "baz",
-    sort: true
+    sort: sortDir.dsc
   }
 ];
 // const data = blamDataRows(["foo", "bar", "baz"], 2000);

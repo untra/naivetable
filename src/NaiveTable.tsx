@@ -1,10 +1,12 @@
 import * as React from "react";
 const indexDataKey = "'index'";
 
-enum sortDir {
-  asc,
-  dsc
+export enum sortDir {
+  asc = "asc",
+  dsc = "dsc"
 }
+
+const f = sortDir.asc;
 
 type sortDirection = sortDir | boolean;
 
@@ -98,7 +100,7 @@ const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
  * @param {TableConfigHeader[]} headers
  */
 const headerColumnWidths = (headers: TableConfigHeader[]) =>
-  headers.reduce((acc, header) => `${acc} ${header.width} `, "");
+  headers.reduce((acc, header) => `${acc} ${header.width || "auto"} `, "");
 
 class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
   constructor(props: TableConfigProps) {
@@ -147,7 +149,7 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
           : "";
       return (
         <span key={index} style={cellStyle}>
-          {label} {arrow}
+          {label} {<p style={{ float: "right" }}>{arrow}</p>}
         </span>
       );
     };
