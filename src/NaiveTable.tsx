@@ -15,30 +15,10 @@ const defaultTableStyle: React.CSSProperties = {
   borderRight: "1px solid black"
 };
 
-const arrowascEnabled: React.CSSProperties = {
-  width: 0,
-  height: 0,
-  borderLeft: "5px solid transparent",
-  borderRight: "5px solid transparent",
-  borderBottom: "5px solid black"
-};
-
-const arrowdscEnabled: React.CSSProperties = {
-  width: 0,
-  height: 0,
-  borderLeft: "5px solid transparent",
-  borderRight: "5px solid transparent",
-  borderTop: "5px solid #000"
-};
-
 const defaultCellStyle: React.CSSProperties = {
   padding: "8px 4px",
   borderLeft: "1px solid black",
   borderBottom: "1px solid black"
-};
-const defaultHeaderStyle: React.CSSProperties = {
-  ...defaultCellStyle,
-  fontWeight: "bold"
 };
 
 interface DataObj {
@@ -76,7 +56,6 @@ interface TableConfigProps {
   headers?: TableConfigHeader[];
   includeIndex?: boolean;
   tableStyle?: React.CSSProperties;
-  headerStyle?: React.CSSProperties;
   cellStyle?: React.CSSProperties;
 }
 
@@ -85,7 +64,6 @@ interface TableConfigState {
   headers: TableConfigHeader[];
   includeIndex: boolean;
   tableStyle: React.CSSProperties;
-  headerStyle: React.CSSProperties;
   cellStyle: React.CSSProperties;
 }
 
@@ -128,7 +106,6 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
     // passed in options shadow the default options
     const includeIndex = props.includeIndex || false;
     const cellStyle = { ...defaultCellStyle, ...props.cellStyle };
-    const headerStyle = { ...defaultHeaderStyle, ...props.headerStyle };
     const tableStyle = { ...defaultTableStyle, ...props.tableStyle };
 
     // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
@@ -148,13 +125,12 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
       data,
       includeIndex,
       cellStyle,
-      headerStyle,
       tableStyle
     };
   }
 
   public render() {
-    const { headers, data, tableStyle, headerStyle, cellStyle } = this.state;
+    const { headers, data, tableStyle, cellStyle } = this.state;
     // the gridStyle is injected into the table dynamically
     const gridTemplateColumns = headerColumnWidths(headers);
     const gridStyle = { ...tableStyle, gridTemplateColumns };
@@ -170,13 +146,13 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
           ? "⇕"
           : "";
       return (
-        <span key={index} style={headerStyle}>
+        <span key={index} style={cellStyle}>
           {label} {arrow}
         </span>
       );
     };
-    const renderDataRow = (header: TableConfigHeader) => (
-      dataObj: DataObj,
+    const renderDataRow = (dataObj: DataObj, indexr: number) => (
+      header: TableConfigHeader,
       index: number
     ) => {
       const { dataKey, render } = header;
@@ -189,43 +165,26 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
         : // otherwise if the key is the special 'index' dataKey
         dataKey === indexDataKey
         ? // supply the offset row index
-          index + 1
+          indexr + 1
         : // otherwise supply the row data at the given dataKey
           // emphasize: we want return 'undefined' here if undefined
           dataObj[dataKey];
       return (
-        <div key={index} style={cellStyle}>
+        <span key={index} style={cellStyle}>
           {renderRow(dataVal)}
-        </div>
-      );
-    };
-
-    const renderSortArrows = (sort: sortDirection = false) => {
-      const enabledColor = "8px solid black";
-      const disabledColor = "8px solid gray";
-      // Intentional misnomer here: borderBottom and borderTop are css properties
-      // arrowTop should get borderBottom, and arrowBottom should get borderTop
-      const borderBottom = sort === sortDir.asc ? enabledColor : disabledColor;
-      const borderTop = sort === sortDir.dsc ? enabledColor : disabledColor;
-      const arrowTop = <div style={{ ...arrowascEnabled, borderBottom }} />;
-      const arrowBottom = <div style={{ ...arrowascEnabled, borderTop }} />;
-      return (
-        <span>
-          {!!sort ? arrowTop : null}
-          {!!sort ? arrowBottom : null}
         </span>
       );
     };
 
-    const renderDataBody = (tableData: DataObj[]) => (
-      tableHeader: TableConfigHeader,
+    const renderDataRows = (tableHeaders: TableConfigHeader[]) => (
+      tableData: DataObj,
       indexr: number
-    ) => <div key={indexr}>{tableData.map(renderDataRow(tableHeader))}</div>;
+    ) => tableHeaders.map(renderDataRow(tableData, indexr));
 
     const renderBody = (
       <div style={gridStyle}>
         {headers.map(renderHeader)}
-        {headers.map(renderDataBody(data))}
+        {data.map(renderDataRows(headers))}
       </div>
     );
     return <div>{renderBody}</div>;

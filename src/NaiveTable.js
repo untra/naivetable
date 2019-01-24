@@ -20,7 +20,6 @@ const defaultCellStyle = {
     borderLeft: "1px solid black",
     borderBottom: "1px solid black"
 };
-const defaultHeaderStyle = Object.assign({}, defaultCellStyle, { fontWeight: "bold" });
 const defaultRenderFunc = (data) => React.createElement("span", null, `${data}`);
 const defaultHeaders = {
     dataKey: "",
@@ -57,7 +56,6 @@ class NaiveTable extends React.Component {
         // passed in options shadow the default options
         const includeIndex = props.includeIndex || false;
         const cellStyle = Object.assign({}, defaultCellStyle, props.cellStyle);
-        const headerStyle = Object.assign({}, defaultHeaderStyle, props.headerStyle);
         const tableStyle = Object.assign({}, defaultTableStyle, props.tableStyle);
         // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
         const data = props.data || [];
@@ -74,17 +72,17 @@ class NaiveTable extends React.Component {
             data,
             includeIndex,
             cellStyle,
-            headerStyle,
             tableStyle
         };
     }
     render() {
-        const { headers, data, tableStyle, headerStyle, cellStyle } = this.state;
+        const { headers, data, tableStyle, cellStyle } = this.state;
         // the gridStyle is injected into the table dynamically
         const gridTemplateColumns = headerColumnWidths(headers);
         const gridStyle = Object.assign({}, tableStyle, { gridTemplateColumns });
-        const renderHeader = (header, index) => (React.createElement("span", { key: index, style: headerStyle }, header.label));
-        const renderDataRow = (header) => (dataObj, index) => {
+        const renderHeader = (header, index) => (React.createElement("span", { key: index, style: cellStyle },
+            React.createElement("strong", null, header.label)));
+        const renderDataRow = (dataObj, indexr) => (header, index) => {
             const { dataKey, render } = header;
             // if the user specified a render function, use that
             const renderRow = render || defaultRenderFunc;
@@ -95,16 +93,18 @@ class NaiveTable extends React.Component {
                 : // otherwise if the key is the special 'index' dataKey
                     dataKey === indexDataKey
                         ? // supply the offset row index
-                            index + 1
+                            indexr + 1
                         : // otherwise supply the row data at the given dataKey
                             // emphasize: we want return 'undefined' here if undefined
                             dataObj[dataKey];
-            return (React.createElement("div", { key: index, style: cellStyle }, renderRow(dataVal)));
+            return (React.createElement("span", { key: index, style: cellStyle }, renderRow(dataVal)));
         };
-        const renderDataBody = (tableData) => (tableHeader, indexr) => React.createElement("div", { key: indexr }, tableData.map(renderDataRow(tableHeader)));
+        const renderDataRows = (tableHeaders) => (tableData, indexr) => {
+            return tableHeaders.map(renderDataRow(tableData, indexr));
+        };
         const renderBody = (React.createElement("div", { style: gridStyle },
             headers.map(renderHeader),
-            headers.map(renderDataBody(data))));
+            data.map(renderDataRows(headers))));
         return React.createElement("div", null, renderBody);
     }
 }
