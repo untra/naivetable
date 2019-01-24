@@ -1,12 +1,36 @@
 import * as React from "react";
 const indexDataKey = "'index'";
 
+enum sortDir {
+  asc,
+  dsc
+}
+
+type sortDirection = sortDir | boolean;
+
 const defaultTableStyle: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: "",
   borderTop: "1px solid black",
   borderRight: "1px solid black"
 };
+
+const arrowascEnabled: React.CSSProperties = {
+  width: 0,
+  height: 0,
+  borderLeft: "5px solid transparent",
+  borderRight: "5px solid transparent",
+  borderBottom: "5px solid black"
+};
+
+const arrowdscEnabled: React.CSSProperties = {
+  width: 0,
+  height: 0,
+  borderLeft: "5px solid transparent",
+  borderRight: "5px solid transparent",
+  borderTop: "5px solid #000"
+};
+
 const defaultCellStyle: React.CSSProperties = {
   padding: "8px 4px",
   borderLeft: "1px solid black",
@@ -27,8 +51,14 @@ interface TableConfigHeader {
   // this is the dataKey that is referenced on the data object when displaying this row
   // if set to '' (empty string) the whole data object will be sent to the render function
   dataKey?: string;
+  // a provided width, that defaults to 'auto'
   width?: string;
+  // an optional render function, that defaults to a naive rendering function
   render?: (data: any) => JSX.Element;
+  // sortability: typed true, false, 'asc' or 'dsc'
+  // true - enable the ability to sort this header
+  // asc & dsc - sort the header this
+  sort?: sortDirection;
 }
 
 const defaultRenderFunc = (data: any) => <span>{`${data}`}</span>;
@@ -37,7 +67,8 @@ const defaultHeaders: TableConfigHeader = {
   dataKey: "",
   label: "",
   width: "1fr",
-  render: defaultRenderFunc
+  render: defaultRenderFunc,
+  sort: false
 };
 
 interface TableConfigProps {
@@ -85,8 +116,7 @@ const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
 };
 /**
  * The css to render the 'grid' value is calculted here.
- * For example, three headers
- *
+ * For example, three default headers should return '1fr 1fr 1fr'
  * @param {TableConfigHeader[]} headers
  */
 const headerColumnWidths = (headers: TableConfigHeader[]) =>
@@ -102,6 +132,7 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
     const tableStyle = { ...defaultTableStyle, ...props.tableStyle };
 
     // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
+    // TODO: check that data.length < 1000, and error otherwise
     const data = props.data || [];
     // if headers are not defined, infer from data keys
     const incIndexHeader: TableConfigHeader[] = includeIndex
@@ -127,11 +158,23 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
     // the gridStyle is injected into the table dynamically
     const gridTemplateColumns = headerColumnWidths(headers);
     const gridStyle = { ...tableStyle, gridTemplateColumns };
-    const renderHeader = (header: TableConfigHeader, index: number) => (
-      <span key={index} style={headerStyle}>
-        {header.label}
-      </span>
-    );
+
+    const renderHeader = (header: TableConfigHeader, index: number) => {
+      const { sort, label } = header;
+      const arrow =
+        sort === sortDir.asc
+          ? "▼"
+          : sort === sortDir.dsc
+          ? "▲"
+          : sort === true
+          ? "⇕"
+          : "";
+      return (
+        <span key={index} style={headerStyle}>
+          {label} {arrow}
+        </span>
+      );
+    };
     const renderDataRow = (header: TableConfigHeader) => (
       dataObj: DataObj,
       index: number
@@ -154,6 +197,23 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
         <div key={index} style={cellStyle}>
           {renderRow(dataVal)}
         </div>
+      );
+    };
+
+    const renderSortArrows = (sort: sortDirection = false) => {
+      const enabledColor = "8px solid black";
+      const disabledColor = "8px solid gray";
+      // Intentional misnomer here: borderBottom and borderTop are css properties
+      // arrowTop should get borderBottom, and arrowBottom should get borderTop
+      const borderBottom = sort === sortDir.asc ? enabledColor : disabledColor;
+      const borderTop = sort === sortDir.dsc ? enabledColor : disabledColor;
+      const arrowTop = <div style={{ ...arrowascEnabled, borderBottom }} />;
+      const arrowBottom = <div style={{ ...arrowascEnabled, borderTop }} />;
+      return (
+        <span>
+          {!!sort ? arrowTop : null}
+          {!!sort ? arrowBottom : null}
+        </span>
       );
     };
 

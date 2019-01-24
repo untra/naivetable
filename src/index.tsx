@@ -20,6 +20,23 @@ const blamDataRows = (headers: string[], nToGen: number) => {
 };
 
 const data = blamDataRows(["foo", "bar", "baz"], 2000);
+const hheaders = [
+  {
+    label: "foo",
+    dataKey: "foo",
+    sort: true
+  },
+  {
+    label: "bar",
+    dataKey: "bar",
+    sort: true
+  },
+  {
+    label: "baz",
+    dataKey: "baz",
+    sort: true
+  }
+];
 
 class App extends React.Component<{}> {
   constructor(props: object) {
@@ -27,7 +44,7 @@ class App extends React.Component<{}> {
     this.state = {};
   }
   public render() {
-    return <NaiveTable data={data} includeIndex={true} />;
+    return <NaiveTable data={data} includeIndex={true} headers={hheaders} />;
   }
 }
 
