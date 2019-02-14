@@ -22,6 +22,30 @@ const defaultCellStyle: React.CSSProperties = {
   borderBottom: "1px solid black"
 };
 
+const cssSortStyle: React.CSSProperties = {
+  border: "solid black",
+  borderWidth: "0 3px 3px 0",
+  display: "inline-block",
+  padding: "3px",
+  float: "right"
+};
+
+const cssSortAsc: React.CSSProperties = {
+  ...cssSortStyle,
+  transform: "rotate(-135deg)"
+};
+
+const cssSortDsc: React.CSSProperties = {
+  ...cssSortStyle,
+  transform: "rotate(45deg)"
+};
+
+const cssSortable: React.CSSProperties = {
+  ...cssSortStyle,
+  borderWidth: "0px 3px 0px 0px",
+  padding: "12px"
+};
+
 interface DataObj {
   [index: string]: any;
 }
@@ -153,17 +177,16 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
     const renderHeader = (header: TableConfigHeader, index: number) => {
       const { sort, label } = header;
       const arrow =
-        sort === sortDir.asc
-          ? "▼"
-          : sort === sortDir.dsc
-          ? "▲"
-          : sort === true
-          ? "⇕"
-          : "";
+        sort === sortDir.asc ? (
+          <i style={cssSortAsc} />
+        ) : sort === sortDir.dsc ? (
+          <i style={cssSortDsc} />
+        ) : sort === true ? (
+          <i style={cssSortable} />
+        ) : null;
       return (
         <span key={index} style={cellStyle}>
-          {label}{" "}
-          {<p style={{ marginleft: "auto", marginRight: "0px" }}>{arrow}</p>}
+          {label} {arrow}
         </span>
       );
     };
