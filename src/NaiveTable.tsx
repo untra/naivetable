@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import * as React from "react";
 const indexDataKey = "'index'";
 
@@ -5,8 +6,6 @@ export enum sortDir {
   asc = "asc",
   dsc = "dsc"
 }
-
-const f = sortDir.asc;
 
 type sortDirection = sortDir | boolean;
 
@@ -55,6 +54,7 @@ const defaultHeaders: TableConfigHeader = {
 
 interface TableConfigProps {
   data: DataObj[];
+  sortedData?: DataObj[];
   headers?: TableConfigHeader[];
   includeIndex?: boolean;
   tableStyle?: React.CSSProperties;
@@ -132,6 +132,19 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
   }
 
   public render() {
+    const processSort = (data: DataObj[], headers: TableConfigHeader[]) => {
+      const sortFn = (acc: DataObj[], header: TableConfigHeader): DataObj[] => {
+        const { sort, dataKey } = header;
+        if (sort === sortDir.asc) {
+          return _.sortBy(acc, [dataKey || ""]);
+        }
+        if (sort === sortDir.dsc) {
+          return _.sortBy(acc, [dataKey || ""]);
+        }
+        return acc;
+      };
+      return headers.reduce(sortFn, data);
+    };
     const { headers, data, tableStyle, cellStyle } = this.state;
     // the gridStyle is injected into the table dynamically
     const gridTemplateColumns = headerColumnWidths(headers);
@@ -149,10 +162,12 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
           : "";
       return (
         <span key={index} style={cellStyle}>
-          {label} {<p style={{ float: "right" }}>{arrow}</p>}
+          {label}{" "}
+          {<p style={{ marginleft: "auto", marginRight: "0px" }}>{arrow}</p>}
         </span>
       );
     };
+
     const renderDataRow = (dataObj: DataObj, indexr: number) => (
       header: TableConfigHeader,
       index: number
@@ -183,13 +198,15 @@ class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
       indexr: number
     ) => tableHeaders.map(renderDataRow(tableData, indexr));
 
-    const renderBody = (
+    const sortedData = processSort(data, headers);
+    console.log("render");
+    const renderTable = (
       <div style={gridStyle}>
         {headers.map(renderHeader)}
-        {data.map(renderDataRows(headers))}
+        {sortedData.map(renderDataRows(headers))}
       </div>
     );
-    return <div>{renderBody}</div>;
+    return <div>{renderTable}</div>;
   }
 }
 

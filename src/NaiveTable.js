@@ -7,6 +7,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const _ = __importStar(require("lodash"));
 const React = __importStar(require("react"));
 const indexDataKey = "'index'";
 var sortDir;
@@ -14,7 +15,6 @@ var sortDir;
     sortDir["asc"] = "asc";
     sortDir["dsc"] = "dsc";
 })(sortDir = exports.sortDir || (exports.sortDir = {}));
-const f = sortDir.asc;
 const defaultTableStyle = {
     display: "grid",
     gridTemplateColumns: "",
@@ -83,6 +83,19 @@ class NaiveTable extends React.Component {
         };
     }
     render() {
+        const processSort = (data, headers) => {
+            const sortFn = (acc, header) => {
+                const { sort, dataKey } = header;
+                if (sort === sortDir.asc) {
+                    return _.sortBy(acc, [dataKey || ""]);
+                }
+                if (sort === sortDir.dsc) {
+                    return _.sortBy(acc, [dataKey || ""]);
+                }
+                return acc;
+            };
+            return headers.reduce(sortFn, data);
+        };
         const { headers, data, tableStyle, cellStyle } = this.state;
         // the gridStyle is injected into the table dynamically
         const gridTemplateColumns = headerColumnWidths(headers);
@@ -99,7 +112,7 @@ class NaiveTable extends React.Component {
             return (React.createElement("span", { key: index, style: cellStyle },
                 label,
                 " ",
-                React.createElement("p", { style: { float: "right" } }, arrow)));
+                React.createElement("p", { style: { marginleft: "auto", marginRight: "0px" } }, arrow)));
         };
         const renderDataRow = (dataObj, indexr) => (header, index) => {
             const { dataKey, render } = header;
@@ -119,10 +132,12 @@ class NaiveTable extends React.Component {
             return (React.createElement("span", { key: index, style: cellStyle }, renderRow(dataVal)));
         };
         const renderDataRows = (tableHeaders) => (tableData, indexr) => tableHeaders.map(renderDataRow(tableData, indexr));
-        const renderBody = (React.createElement("div", { style: gridStyle },
+        const sortedData = processSort(data, headers);
+        console.log("render");
+        const renderTable = (React.createElement("div", { style: gridStyle },
             headers.map(renderHeader),
-            data.map(renderDataRows(headers))));
-        return React.createElement("div", null, renderBody);
+            sortedData.map(renderDataRows(headers))));
+        return React.createElement("div", null, renderTable);
     }
 }
 exports.default = NaiveTable;

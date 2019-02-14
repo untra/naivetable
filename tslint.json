@@ -5,7 +5,8 @@
   "rules": {
     "semicolon": false,
     "interface-name": false,
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "no-shadowed-variable": false
   },
   "rulesDirectory": []
 }

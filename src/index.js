@@ -24,7 +24,7 @@ const blamDataRows = (headers, nToGen) => {
     }
     return rows;
 };
-const bigdata = blamDataRows(["foo", "bar", "baz"], 2000);
+const bigdata = blamDataRows(["foo", "bar", "baz"], 500);
 const hheaders = [
     {
         label: "foo",
@@ -55,7 +55,7 @@ class App extends react_1.default.Component {
         this.state = {};
     }
     render() {
-        return react_1.default.createElement(NaiveTable_1.default, { data: data, includeIndex: true, headers: hheaders });
+        return react_1.default.createElement(NaiveTable_1.default, { data: bigdata, includeIndex: true, headers: hheaders });
     }
 }
 react_dom_1.render(react_1.default.createElement(App, null), document.getElementById("root"));
