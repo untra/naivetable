@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.11",
-    "react": "16.7.0",
+    "react": "16.8.2",
     "react-dom": "16.7.0"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "@types/lodash": "^4.14.120",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.18",
-    "@types/react": "16.7.20",
+    "@types/react": "16.8.3",
     "@types/react-dom": "^16.0.11",
     "babel-loader": "^8.0.5",
     "chai": "^4.2.0",

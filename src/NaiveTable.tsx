@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import * as React from "react";
+import React, { useState } from "react";
 const indexDataKey = "'index'";
 
 export enum sortDir {
@@ -126,111 +126,123 @@ const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
 const headerColumnWidths = (headers: TableConfigHeader[]) =>
   headers.reduce((acc, header) => `${acc} ${header.width || "auto"} `, "");
 
-class NaiveTable extends React.Component<NaiveTableProps, NaiveTableState> {
-  constructor(props: TableConfigProps) {
-    super(props);
-    // passed in options shadow the default options
-    const includeIndex = props.includeIndex || false;
-    const cellStyle = { ...defaultCellStyle, ...props.cellStyle };
-    const tableStyle = { ...defaultTableStyle, ...props.tableStyle };
+const buildInititalState = (props: NaiveTableProps): TableConfigState => {
+  // passed in options shadow the default options
+  const includeIndex = props.includeIndex || false;
+  const cellStyle = { ...defaultCellStyle, ...props.cellStyle };
+  const tableStyle = { ...defaultTableStyle, ...props.tableStyle };
 
-    // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
-    // TODO: check that data.length < 1000, and error otherwise
-    const data = props.data || [];
-    // if headers are not defined, infer from data keys
-    const incIndexHeader: TableConfigHeader[] = includeIndex
-      ? [indexHeader]
-      : [];
-    const incHeaders = props.headers
-      ? props.headers
-      : inferHeadersFromData(data);
-    const headers = [...incIndexHeader, ...incHeaders];
+  // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
+  // TODO: check that data.length < 1000, and error otherwise
+  const data = props.data || [];
+  // if headers are not defined, infer from data keys
+  const incIndexHeader: TableConfigHeader[] = includeIndex ? [indexHeader] : [];
+  const incHeaders = props.headers ? props.headers : inferHeadersFromData(data);
+  const headers = [...incIndexHeader, ...incHeaders];
 
-    this.state = {
-      headers,
-      data,
-      includeIndex,
-      cellStyle,
-      tableStyle
+  return {
+    headers,
+    data,
+    includeIndex,
+    cellStyle,
+    tableStyle
+  };
+};
+
+const NaiveTable: React.FunctionComponent<NaiveTableProps> = (
+  props: NaiveTableProps
+) => {
+  const initState = buildInititalState(props);
+  const [state, setState] = useState(initState);
+
+  const processSort = (data: DataObj[], headers: TableConfigHeader[]) => {
+    const sortFn = (acc: DataObj[], header: TableConfigHeader): DataObj[] => {
+      const { sort, dataKey } = header;
+      if (sort === sortDir.asc) {
+        return _.sortBy(acc, [dataKey || ""]);
+      }
+      if (sort === sortDir.dsc) {
+        return _.sortBy(acc, [dataKey || ""]);
+      }
+      return acc;
     };
-  }
+    return headers.reduce(sortFn, data);
+  };
+  const { headers, data, tableStyle, cellStyle } = state;
+  // the gridStyle is injected into the table dynamically
+  const gridTemplateColumns = headerColumnWidths(headers);
+  const gridStyle = { ...tableStyle, gridTemplateColumns };
 
-  public render() {
-    const processSort = (data: DataObj[], headers: TableConfigHeader[]) => {
-      const sortFn = (acc: DataObj[], header: TableConfigHeader): DataObj[] => {
-        const { sort, dataKey } = header;
-        if (sort === sortDir.asc) {
-          return _.sortBy(acc, [dataKey || ""]);
-        }
-        if (sort === sortDir.dsc) {
-          return _.sortBy(acc, [dataKey || ""]);
-        }
-        return acc;
-      };
-      return headers.reduce(sortFn, data);
+  const toggleHeader = (index: number) => {
+    const updatedHeaders = [...headers];
+    const toggledHeader = updatedHeaders[index];
+    const sortedDirection = toggledHeader.sort;
+    const sort = sortedDirection === sortDir.asc ? sortDir.dsc : sortDir.asc;
+    const updatedHeader = { ...toggledHeader, sort };
+    updatedHeaders[index] = updatedHeader;
+    return updatedHeaders;
+  };
+  const renderHeader = (header: TableConfigHeader, index: number) => {
+    const { sort, label } = header;
+    const arrow =
+      sort === sortDir.asc ? (
+        <i style={cssSortAsc} />
+      ) : sort === sortDir.dsc ? (
+        <i style={cssSortDsc} />
+      ) : sort === true ? (
+        <i style={cssSortable} />
+      ) : null;
+    const change = (index: number) => () => {
+      const headers = toggleHeader(index);
+      setState({ ...state, headers });
     };
-    const { headers, data, tableStyle, cellStyle } = this.state;
-    // the gridStyle is injected into the table dynamically
-    const gridTemplateColumns = headerColumnWidths(headers);
-    const gridStyle = { ...tableStyle, gridTemplateColumns };
+    const onClick = !sort ? _.noop : change(index);
 
-    const renderHeader = (header: TableConfigHeader, index: number) => {
-      const { sort, label } = header;
-      const arrow =
-        sort === sortDir.asc ? (
-          <i style={cssSortAsc} />
-        ) : sort === sortDir.dsc ? (
-          <i style={cssSortDsc} />
-        ) : sort === true ? (
-          <i style={cssSortable} />
-        ) : null;
-      return (
-        <span key={index} style={cellStyle}>
-          {label} {arrow}
-        </span>
-      );
-    };
-
-    const renderDataRow = (dataObj: DataObj, indexr: number) => (
-      header: TableConfigHeader,
-      index: number
-    ) => {
-      const { dataKey, render } = header;
-      // if the user specified a render function, use that
-      const renderRow = render || defaultRenderFunc;
-      // if a datakey isn't provided
-      const dataVal: any = !dataKey
-        ? // supply the entire data blob
-          data
-        : // otherwise if the key is the special 'index' dataKey
-        dataKey === indexDataKey
-        ? // supply the offset row index
-          indexr + 1
-        : // otherwise supply the row data at the given dataKey
-          // emphasize: we want return 'undefined' here if undefined
-          dataObj[dataKey];
-      return (
-        <span key={index} style={cellStyle}>
-          {renderRow(dataVal)}
-        </span>
-      );
-    };
-
-    const renderDataRows = (tableHeaders: TableConfigHeader[]) => (
-      tableData: DataObj,
-      indexr: number
-    ) => tableHeaders.map(renderDataRow(tableData, indexr));
-
-    const sortedData = processSort(data, headers);
-    console.log("render");
-    const renderTable = (
-      <div style={gridStyle}>
-        {headers.map(renderHeader)}
-        {sortedData.map(renderDataRows(headers))}
-      </div>
+    return (
+      <span key={index} style={cellStyle} onClick={onClick}>
+        {label} {arrow}
+      </span>
     );
-    return <div>{renderTable}</div>;
-  }
-}
+  };
+
+  const renderDataRow = (dataObj: DataObj, indexr: number) => (
+    header: TableConfigHeader,
+    index: number
+  ) => {
+    const { dataKey, render } = header;
+    // if the user specified a render function, use that
+    const renderRow = render || defaultRenderFunc;
+    // if a datakey isn't provided
+    const dataVal: any = !dataKey
+      ? // supply the entire data blob
+        data
+      : // otherwise if the key is the special 'index' dataKey
+      dataKey === indexDataKey
+      ? // supply the offset row index
+        indexr + 1
+      : // otherwise supply the row data at the given dataKey
+        // emphasize: we want return 'undefined' here if undefined
+        dataObj[dataKey];
+    return (
+      <span key={index} style={cellStyle}>
+        {renderRow(dataVal)}
+      </span>
+    );
+  };
+
+  const renderDataRows = (tableHeaders: TableConfigHeader[]) => (
+    tableData: DataObj,
+    indexr: number
+  ) => tableHeaders.map(renderDataRow(tableData, indexr));
+
+  const sortedData = processSort(data, headers);
+  const renderTable = (
+    <div style={gridStyle}>
+      {headers.map(renderHeader)}
+      {sortedData.map(renderDataRows(headers))}
+    </div>
+  );
+  return <div>{renderTable}</div>;
+};
 
 export default NaiveTable;
