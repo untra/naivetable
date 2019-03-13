@@ -149,9 +149,9 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   };
 };
 
-const NaiveTable: React.FunctionComponent<NaiveTableProps> = (
+function NaiveTable(
   props: NaiveTableProps
-) => {
+) {
   const initState = buildInititalState(props);
   const [state, setState] = useState(initState);
 

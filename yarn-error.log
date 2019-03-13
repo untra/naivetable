@@ -2,7 +2,7 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Users\untra\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\untra\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\libnvvp;C:\Program Files\Microsoft MPI\Bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\CMake\bin;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Git\cmd;C:\Program Files\erl9.2\bin;C:\Program Files (x86)\Elixir\bin;C:\WINDOWS\system32\config\systemprofile\.mix\escripts;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft VS Code\bin;C:\Users\untra\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\untra\AppData\Local\Programs\Python\Python37-32;C:\Ruby24-x64\bin;C:\Users\untra\.cargo\bin;C:\Users\untra\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Nanobox;C:\Users\untra\AppData\Roaming\npm;C:\Users\untra\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\untra\AppData\Local\Keybase
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\untra\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.1\libnvvp;C:\Program Files\Microsoft MPI\Bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\CMake\bin;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Git\cmd;C:\Program Files\erl9.2\bin;C:\Program Files (x86)\Elixir\bin;%USERPROFILE%\.mix\escripts;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft VS Code\bin;C:\Users\untra\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\untra\AppData\Local\Programs\Python\Python37-32;C:\Ruby24-x64\bin;C:\Users\untra\.cargo\bin;C:\Users\untra\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Nanobox;C:\Users\untra\AppData\Roaming\npm;C:\Users\untra\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\untra\AppData\Local\Keybase
 
 Yarn version: 
   1.7.0
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, lstat 'C:\Users\untra\Documents\naivetable\node_modules\@babel\code-frame'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\untra\Documents\naivetable\node_modules\.bin\webpack-dev-server'
 
 npm manifest: 
   {
@@ -28,21 +28,21 @@ npm manifest:
       "preversion": "npm run ci",
       "test": "mocha --reporter spec",
       "build": "tsc",
-      "build:watch": "tsc --watch",
+      "build:watch": "tsc -p ./tsconfig.json --watch",
       "lint": "tslint --project \"./tsconfig.json\"",
       "docs": "typedoc --out docs src",
       "gh-pages": "rimraf docs && npm run docs && gh-pages -d docs",
       "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec",
       "ci": "npm run lint && npm run build && npm run cover",
-      "start": "yarn build && webpack-dev-server src/index.js",
-      "watch": "webpack-dev-server dist/index.js"
+      "start": "tsc -p ./tsconfig.json --watch & ./node_modules/.bin/webpack-dev-server dist/index.js",
+      "watch": "./node_modules/.bin/webpack-dev-server dist/index.js"
     },
     "author": "Samuel Volin @untra",
     "license": "MIT",
     "dependencies": {
       "lodash": "^4.17.11",
       "react": "16.8.2",
-      "react-dom": "16.7.0"
+      "react-dom": "16.8.4"
     },
     "devDependencies": {
       "@babel/core": "^7.2.2",
@@ -51,8 +51,8 @@ npm manifest:
       "@types/lodash": "^4.14.120",
       "@types/mocha": "^5.2.5",
       "@types/node": "^10.12.18",
-      "@types/react": "16.8.3",
-      "@types/react-dom": "^16.0.11",
+      "@types/react": "^16.8.8",
+      "@types/react-dom": "^16.8.2",
       "babel-loader": "^8.0.5",
       "chai": "^4.2.0",
       "css-loader": "^0.28.11",
@@ -62,8 +62,8 @@ npm manifest:
       "mocha": "^5.2.0",
       "tslint": "^5.12.1",
       "tslint-config-prettier": "^1.17.0",
-      "typedoc": "^0.14.1",
-      "typescript": "^3.2.4",
+      "typedoc": "^0.14.2",
+      "typescript": "^3.3.3333",
       "webpack": "^3.10.0",
       "webpack-cli": "3.0.2",
       "webpack-dev-server": "3.0.0"
@@ -296,9 +296,9 @@ Lockfile:
     version "15.5.8"
     resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.8.tgz#8ae4e0ea205fe95c3901a5a1df7f66495e3a56ce"
   
-  "@types/react-dom@^16.0.11":
-    version "16.0.11"
-    resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.11.tgz#bd10ccb0d9260343f4b9a49d4f7a8330a5c1f081"
+  "@types/react-dom@^16.8.2":
+    version "16.8.2"
+    resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.8.2.tgz#9bd7d33f908b243ff0692846ef36c81d4941ad12"
     dependencies:
       "@types/react" "*"
   
@@ -309,9 +309,9 @@ Lockfile:
       "@types/prop-types" "*"
       csstype "^2.2.0"
   
-  "@types/react@16.8.3":
-    version "16.8.3"
-    resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.3.tgz#7b67956f682bea30a5a09b3242c0784ff196c848"
+  "@types/react@^16.8.8":
+    version "16.8.8"
+    resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.8.tgz#4b60a469fd2469f7aa6eaa0f8cfbc51f6d76e662"
     dependencies:
       "@types/prop-types" "*"
       csstype "^2.2.0"
@@ -2156,9 +2156,9 @@ Lockfile:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   
-  highlight.js@9.12.0:
-    version "9.12.0"
-    resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.12.0.tgz#e6d9dbe57cbefe60751f02af336195870c90c01e"
+  highlight.js@^9.13.1:
+    version "9.15.6"
+    resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.15.6.tgz#72d4d8d779ec066af9a17cb14360c3def0aa57c4"
   
   hmac-drbg@^1.0.0:
     version "1.0.1"
@@ -4812,9 +4812,9 @@ Lockfile:
     version "0.5.0"
     resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.5.0.tgz#6dc2433e78ed8bea8e887a3acde2f31785bd6227"
   
-  typedoc@^0.14.1:
-    version "0.14.1"
-    resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.14.1.tgz#5e659f7a78ccac91547cb2328490665d9c10c4b2"
+  typedoc@^0.14.2:
+    version "0.14.2"
+    resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.14.2.tgz#769f457f4f9e4bdb8b5f3b177c86b6a31d8c3dc3"
     dependencies:
       "@types/fs-extra" "^5.0.3"
       "@types/handlebars" "^4.0.38"
@@ -4825,7 +4825,7 @@ Lockfile:
       "@types/shelljs" "^0.8.0"
       fs-extra "^7.0.0"
       handlebars "^4.0.6"
-      highlight.js "9.12.0"
+      highlight.js "^9.13.1"
       lodash "^4.17.10"
       marked "^0.4.0"
       minimatch "^3.0.0"
@@ -4838,9 +4838,9 @@ Lockfile:
     version "3.2.2"
     resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.2.tgz#fe8101c46aa123f8353523ebdcf5730c2ae493e5"
   
-  typescript@^3.2.4:
-    version "3.2.4"
-    resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.4.tgz#c585cb952912263d915b462726ce244ba510ef3d"
+  typescript@^3.3.3333:
+    version "3.3.3333"
+    resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.3.3333.tgz#171b2c5af66c59e9431199117a3bcadc66fdcfd6"
   
   uglify-js@3.4.x, uglify-js@^3.1.4:
     version "3.4.9"
