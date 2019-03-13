@@ -1,0 +1,16 @@
+{
+    "name": "naivetable",
+    "readme": "./README.md",
+    "out": "docs",
+    "theme": "minimal",
+    "includeDeclarations": "false",
+    "excludeExternals": "true",
+    "exclude": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/mocha.config.ts",
+      "**/*.spec.*"
+    ],
+    "includes": "./",
+    "__media": "media files that will be copied to the output directory; use media://FILENAME in comments"
+  }

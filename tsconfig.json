@@ -58,6 +58,7 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": ["./src/**/*"],
+  "exclude": ["**/*.spec.*", "**/*.js.*"],
   "compileOnSave": true
 }
