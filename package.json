@@ -2,7 +2,7 @@
   "name": "naivetable",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "NaiveTable.js",
   "scripts": {
     "postversion": "git push && git push --tags",
     "prepublishOnly": "npm run ci",

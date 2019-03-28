@@ -51,7 +51,7 @@ class App extends React.Component<{}> {
     this.state = {};
   }
   public render() {
-    return <NaiveTable data={bigdata} includeIndex={true} headers={hheaders} />;
+    return <NaiveTable data={bigdata} includeIndex={true} headers={hheaders} tableStyle={{background: "white", borderRight: "none", borderLeft: "none"}}/>;
   }
 }
 
