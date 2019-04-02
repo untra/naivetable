@@ -1,7 +1,11 @@
 import React from "react";
-import { render } from "react-dom";
+import {
+  render
+} from "react-dom";
 
-import NaiveTable, { sortDir } from "./NaiveTable";
+import NaiveTable, {
+  sortDir
+} from "./NaiveTable";
 
 interface DataObj {
   [index: string]: any;
@@ -20,39 +24,61 @@ const blamDataRows = (headers: string[], nToGen: number) => {
 };
 
 const bigdata = blamDataRows(["foo", "bar", "baz"], 500);
-const hheaders = [
-  {
+const hheaders = [{
     label: "foo",
     dataKey: "foo",
-    sort: true
   },
   {
     label: "bar",
     dataKey: "bar",
-    sort: sortDir.asc
   },
   {
     label: "baz",
     dataKey: "baz",
-    sort: sortDir.dsc
+    render: (val: number) => <h1>{`${val > 0.5} : ${val}`}</h1>
   }
 ];
 // const data = blamDataRows(["foo", "bar", "baz"], 2000);
-const data = [
-  { foo: 1, bar: 2, baz: 3 },
-  { foo: 4, bar: 5, baz: 6 },
-  { foo: 7, bar: 8, baz: 9 },
-  { foo: "a", bar: "b", baz: "c" }
+const data = [{
+    foo: 1,
+    bar: 2,
+    baz: 3
+  },
+  {
+    foo: 4,
+    bar: 5,
+    baz: 6
+  },
+  {
+    foo: 7,
+    bar: 8,
+    baz: 9
+  },
+  {
+    foo: "a",
+    bar: "b",
+    baz: "c"
+  }
 ];
 
-class App extends React.Component<{}> {
+class App extends React.Component < {} > {
   constructor(props: object) {
     super(props);
     this.state = {};
   }
+
   public render() {
-    return <NaiveTable data={bigdata} includeIndex={true} headers={hheaders} tableStyle={{background: "white", borderRight: "none", borderLeft: "none"}}/>;
+    return <NaiveTable data = {
+      bigdata
+    }
+    includeIndex = {
+      true
+    }
+    headers = {
+      hheaders
+    }
+    />;
   }
 }
 
-render(<App />, document.getElementById("root"));
+render( < App / > , document.getElementById("root"));

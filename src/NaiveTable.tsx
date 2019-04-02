@@ -13,13 +13,20 @@ const defaultTableStyle: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: "",
   borderTop: "1px solid black",
-  borderRight: "1px solid black"
+  borderRight: "1px solid black",
+  borderLeft: "1px solid black",
+  borderBottom: "1px solid black"
 };
 
 const defaultCellStyle: React.CSSProperties = {
   padding: "8px 4px",
-  borderLeft: "1px solid black",
-  borderBottom: "1px solid black"
+  borderBottom: "1px solid black",
+  borderTop: "1px solid black"
+};
+
+const defaultHeaderStyle: React.CSSProperties = {
+  backgroundColor: "rgb(220,220,220)",
+  fontWeight: "bold"
 };
 
 const cssSortStyle: React.CSSProperties = {
@@ -64,6 +71,8 @@ interface TableConfigHeader {
   // true - enable the ability to sort this header
   // asc & dsc - sort the header this
   sort?: sortDirection;
+  // style: any specific styling that should be used when rendering the header
+  style?: React.CSSProperties;
 }
 
 const defaultRenderFunc = (data: any) => <span>{`${data}`}</span>;
@@ -131,7 +140,6 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   const includeIndex = props.includeIndex || false;
   const cellStyle = { ...defaultCellStyle, ...props.cellStyle };
   const tableStyle = { ...defaultTableStyle, ...props.tableStyle };
-
   // data must be provided. Otherwise if its falsey, it defaults to empty array (no data)
   // TODO: check that data.length < 1000, and error otherwise
   const data = props.data || [];
@@ -149,9 +157,7 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   };
 };
 
-function NaiveTable(
-  props: NaiveTableProps
-) {
+function NaiveTable(props: NaiveTableProps) {
   const initState = buildInititalState(props);
   const [state, setState] = useState(initState);
 
@@ -183,7 +189,8 @@ function NaiveTable(
     return updatedHeaders;
   };
   const renderHeader = (header: TableConfigHeader, index: number) => {
-    const { sort, label } = header;
+    const { sort, label, style } = header;
+    const headerStyle = { ...defaultHeaderStyle, ...cellStyle, ...style };
     const arrow =
       sort === sortDir.asc ? (
         <i style={cssSortAsc} />
@@ -199,7 +206,7 @@ function NaiveTable(
     const onClick = !sort ? _.noop : change(index);
 
     return (
-      <span key={index} style={cellStyle} onClick={onClick}>
+      <span key={index} style={headerStyle} onClick={onClick}>
         {label} {arrow}
       </span>
     );
@@ -243,6 +250,6 @@ function NaiveTable(
     </div>
   );
   return <div>{renderTable}</div>;
-};
+}
 
 export default NaiveTable;
