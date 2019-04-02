@@ -1,6 +1,6 @@
 # naivetable
 
-![naivetable](/images/logo-slim.png)
+![naivetable](https://untra.io/img/logo-slim.png)
 
 naivetable is a react module to easily render a table of information.
 
