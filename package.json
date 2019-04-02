@@ -13,8 +13,9 @@
     "lint": "tslint --project \"./tsconfig.json\"",
     "docs": "typedoc --out docs src",
     "gh-pages": "rimraf docs && npm run docs && gh-pages -d docs",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec",
-    "ci": "npm run lint && npm run build && npm run cover",
+    "cover": "./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec",
+    "ci": "npm run lint && npm run build",
+    "ci2": "npm run lint && npm run build && npm run cover",
     "start": "tsc -p ./tsconfig.json --watch & ./node_modules/.bin/webpack-dev-server dist/index.js",
     "watch": "./node_modules/.bin/webpack-dev-server dist/index.js"
   },
@@ -45,6 +46,7 @@
     "tslint-config-prettier": "^1.17.0",
     "typedoc": "^0.14.2",
     "typescript": "^3.3.3333",
+    "istanbul": "^0.4.5",
     "webpack": "^4.29.6",
     "webpack-cli": "3.0.2",
     "webpack-dev-server": "^3.1.11"
