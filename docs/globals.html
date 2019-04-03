@@ -912,10 +912,71 @@ img { max-width: 100%; }
 <div class="container container-main">
 	<div class="content-wrap">
 		<div class="tsd-panel tsd-typography">
-			<h1 id="naivetable">naivetable</h1>
-			<p><img src="/images/logo-slim.png" alt="naivetable"></p>
-			<p>naivetable is a react module to easily render a table of information.</p>
-			<p>It turns a JSON array of objects (typescript type <code>{ [index: string]: any;}</code>) into a rendered table on a page.</p>
+			<h1 id="naivetable">NaiveTable</h1>
+			<p><img src="https://untra.io/img/logo-slim.png" alt="naivetable"></p>
+			<p><strong>NaiveTable</strong> is a react module that can be used to quickly render a table from an array of objects.</p>
+			<p>It turns a JSON array of objects (typescript type <code>Array&lt;T&gt;</code> of <code>{ [index: string]: any;}</code>) into a rendered <code>&lt;div&gt;</code> table</p>
+			<h2 id="usage">Usage</h2>
+			<h3 id="just-feed-it-consistant-arrayt-of-data">Just feed it consistant <code>Array&lt;T&gt;</code> of data</h3>
+			<pre><code class="language-tsx">const data = [
+    { a: &#39;alex&#39;, b: 12, c: 82.56 },
+    { a: &#39;brock&#39;, b: 17, c: 93.33 },
+    { a: &#39;charlie&#39;, b: 16, c: 48.65 }
+]
+...
+// if you need a rendered table of data RIGHT NOW
+// NaiveTable just infers the headers &#39;a&#39;, &#39;b&#39;, and &#39;c&#39;
+// this is the most straightforward way to use NaiveTable
+&lt;NaiveTable data={data} /&gt;</code></pre>
+			<h3 id="provide-headers-for-more-granular-control">Provide headers for more granular control</h3>
+			<pre><code class="language-tsx">const headers = [
+    // change the rendered header text with the &#39;label&#39; parameter
+    { label: &#39;name&#39;, dataKey: &#39;a&#39; }
+    // individually style each header cell with the &#39;style&#39; parameter
+    { label: &#39;age&#39;, dataKey: &#39;b&#39;, style: { backgroundColor: &quot;pink&quot; } }
+    // provide a &#39;render&#39; function to control how dataCells render for the column
+    { label: &#39;grade status&#39;, dataKey: &#39;c&#39;, render: (val: number) =&gt; &lt;h2&gt;{
+        `${val &gt; 50 ? &#39;passing&#39; : &#39;failing&#39;} the class`
+    }&lt;/h2&gt; }
+    // use the &#39;dataKey&#39; to control the input to the render function
+    // provide an empty string to instead call render with the entire dataObject provided
+    { label: &#39;assessment&#39;, dataKey: &#39;&#39;, render: (val: object) =&gt; &lt;h4&gt;{
+        `${val.a} is ${val.c &gt; 90 ? &#39;really&#39; : &#39;&#39;} ${val.c &gt; 50 : &#39;smart&#39; : &#39;dumb&#39;}`
+    }&lt;/h4&gt; }
+    // you can have more headers than keys in your dataObjects, btw ;)
+    // you can also control the &#39;width&#39; of the column (pass in &#39;fr&#39; , defaults to &#39;auto&#39;)
+    { label: &#39;comment&#39;, dataKey: &#39;&#39;, render: () =&gt; &#39;I like you&#39;, width: &#39;4fr&#39; }
+]
+...
+// if you want to specifically define the header rendering of the table
+&lt;NaiveTable data={data} headers={headers} /&gt;
+// if you want an index count column before rendering your headers
+&lt;NaiveTable data={data} headers={headers} includeIndex={true} /&gt;</code></pre>
+			<h3 id="style-the-table-and-make-it-easily-fit-into-your-app">Style the table, and make it easily fit into your app</h3>
+			<pre><code class="language-tsx">const tableStyle : React.CSSProperties = { ... }
+const cellStyle  : React.CSSProperties = { ... }
+...
+// each header cell can be styled individually
+&lt;NaiveTable data={data} headers={headers} /&gt;
+// provide css styles for the entire wrapping table
+&lt;NaiveTable data={data} tableStyle={tableStyle} /&gt;
+// provide css styes for all cells in the table
+&lt;NaiveTable data={data} cellStyle={cellStyle} /&gt;</code></pre>
+			<h2 id="design">Design</h2>
+			<p>NaiveTable uses react 16.8.5 and hooks to create a straightforward functional JSX.Element react component.</p>
+			<p>It designed with the Single Responsibility Principle in mind: NaiveTable takes data and renders it as straightforwardly as you tell it to, infering reasonable defaults along the way.</p>
+			<h2 id="compatibility">Compatibility</h2>
+			<h2 id="limitations">Limitations</h2>
+			<ul>
+				<li><p><em>It&#39;s super dumb.</em> NaiveTable will render data naively (duh) by using a series of nested divs, and as such is not the most effective solution with large amounts of data. While NaiveTable will render more than a thousand rows with ease, more than a hundred and I would recommend a more dynamic table solution with virtual scroll.</p>
+				</li>
+				<li><p><em>It wants consistancy.</em> NaiveTable likes structured  <code>Array&lt;T&gt;</code> of <code>{ [index: string]: any;}</code> data shapes. While this should be most use cases, this means unstructured data may not be render consistantly.</p>
+				</li>
+				<li><p><em>It will reasonably assume what you meant.</em> NaiveTable&#39;s creator has made some asusmptions about what you want the component to behave like, such as default rendering <code>any</code> data values into <code>&lt;p&gt;&lt;/p&gt;</code> tags, defaulting column widths to <code>auto</code>, etc. It is not magic, just trying its best to please.</p>
+				</li>
+			</ul>
+			<h1 id="copyright">Copyright</h1>
+			<p>Copyright (c) Samuel Volin 2019. License: MIT</p>
 		</div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
