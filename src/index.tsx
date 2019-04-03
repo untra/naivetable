@@ -27,10 +27,12 @@ const bigdata = blamDataRows(["foo", "bar", "baz"], 500);
 const hheaders = [{
     label: "foo",
     dataKey: "foo",
+    width: '3fr'
   },
   {
     label: "bar",
     dataKey: "bar",
+    style: { backgroundColor: "pink" }
   },
   {
     label: "baz",
@@ -75,10 +77,10 @@ class App extends React.Component < {} > {
       true
     }
     headers = {
-      hheaders
+      []
     }
     />;
   }
 }
 
-render( < App / > , document.getElementById("root"));
+render( < App  /> , document.getElementById("root"));

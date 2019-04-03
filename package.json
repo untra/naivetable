@@ -22,9 +22,8 @@
   "author": "Samuel Volin @untra",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.17.11",
-    "react": "16.8.5",
-    "react-dom": "16.8.5"
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

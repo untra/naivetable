@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import React, { useState } from "react";
 const indexDataKey = "'index'";
 
@@ -56,7 +55,10 @@ const cssSortable: React.CSSProperties = {
 interface DataObj {
   [index: string]: any;
 }
-
+/**
+ *
+ * @interface TableConfigHeader
+ */
 interface TableConfigHeader {
   // this is the string label for the table header
   label: string;
@@ -80,7 +82,7 @@ const defaultRenderFunc = (data: any) => <span>{`${data}`}</span>;
 const defaultHeaders: TableConfigHeader = {
   dataKey: "",
   label: "",
-  width: "1fr",
+  width: "auto",
   render: defaultRenderFunc,
   sort: false
 };
@@ -127,6 +129,7 @@ const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
   }
   return [];
 };
+
 /**
  * The css to render the 'grid' value is calculted here.
  * For example, three default headers should return '1fr 1fr 1fr'
@@ -135,6 +138,11 @@ const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
 const headerColumnWidths = (headers: TableConfigHeader[]) =>
   headers.reduce((acc, header) => `${acc} ${header.width || "auto"} `, "");
 
+/**
+ * Creates the initial NaiveTable state from the initial props
+ * @param {NaiveTableProps} props
+ * @returns {TableConfigState}
+ */
 const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   // passed in options shadow the default options
   const includeIndex = props.includeIndex || false;
@@ -157,18 +165,26 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   };
 };
 
-function NaiveTable(props: NaiveTableProps) {
+
+/**
+ * NaiveTable is the whole enchilada! This is the react function that takes in the defined props and renders a JSX.Element with everything you need.
+ * Nothing scary or magical, just entirely functional and straightforward.
+ * @param {NaiveTableProps} props
+ * @returns
+ */
+export default function NaiveTable(props: NaiveTableProps) {
   const initState = buildInititalState(props);
   const [state, setState] = useState(initState);
-
+  // processSort will sort provided data according to the provided headers
   const processSort = (data: DataObj[], headers: TableConfigHeader[]) => {
     const sortFn = (acc: DataObj[], header: TableConfigHeader): DataObj[] => {
       const { sort, dataKey } = header;
+      const key = dataKey || ''
       if (sort === sortDir.asc) {
-        return _.sortBy(acc, [dataKey || ""]);
+        return acc.sort((a,b) => (a[key] > b[key] ? 1 : -1 ));
       }
       if (sort === sortDir.dsc) {
-        return _.sortBy(acc, [dataKey || ""]);
+        return acc.sort((a,b) => (a[key] < b[key] ? 1 : -1 ));
       }
       return acc;
     };
@@ -178,7 +194,7 @@ function NaiveTable(props: NaiveTableProps) {
   // the gridStyle is injected into the table dynamically
   const gridTemplateColumns = headerColumnWidths(headers);
   const gridStyle = { ...tableStyle, gridTemplateColumns };
-
+  // toggleHeader will sort the data by the header sort at the given index
   const toggleHeader = (index: number) => {
     const updatedHeaders = [...headers];
     const toggledHeader = updatedHeaders[index];
@@ -188,6 +204,7 @@ function NaiveTable(props: NaiveTableProps) {
     updatedHeaders[index] = updatedHeader;
     return updatedHeaders;
   };
+  // renderHeader will render the given header at the designated index
   const renderHeader = (header: TableConfigHeader, index: number) => {
     const { sort, label, style } = header;
     const headerStyle = { ...defaultHeaderStyle, ...cellStyle, ...style };
@@ -199,19 +216,21 @@ function NaiveTable(props: NaiveTableProps) {
       ) : sort === true ? (
         <i style={cssSortable} />
       ) : null;
+    // change creates the function called when a header sort is toggled
     const change = (index: number) => () => {
       const headers = toggleHeader(index);
       setState({ ...state, headers });
     };
-    const onClick = !sort ? _.noop : change(index);
-
+    // if sort is not enabled, clicking should noop, else invoke change
+    const onClick = !sort ? () => null : change(index);
+    // here is the assembled header rendering
     return (
       <span key={index} style={headerStyle} onClick={onClick}>
         {label} {arrow}
       </span>
     );
   };
-
+  // renderDataRow will render the given data at the designated index
   const renderDataRow = (dataObj: DataObj, indexr: number) => (
     header: TableConfigHeader,
     index: number
@@ -241,8 +260,9 @@ function NaiveTable(props: NaiveTableProps) {
     tableData: DataObj,
     indexr: number
   ) => tableHeaders.map(renderDataRow(tableData, indexr));
-
+  // JIT before we render anything at all we sort our data
   const sortedData = processSort(data, headers);
+  // this our rendered data
   const renderTable = (
     <div style={gridStyle}>
       {headers.map(renderHeader)}
@@ -251,5 +271,3 @@ function NaiveTable(props: NaiveTableProps) {
   );
   return <div>{renderTable}</div>;
 }
-
-export default NaiveTable;
