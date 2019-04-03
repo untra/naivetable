@@ -1,8 +1,17 @@
 {
   "name": "@untra/naivetable",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "NaiveTable.js",
+  "author": {
+    "name": "Samuel Volin",
+    "email": "sam@untra.io",
+    "url": "https://github.com/untra"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/untra/naivetable"
+  },
   "scripts": {
     "postversion": "git push && git push --tags",
     "prepublishOnly": "npm run ci",
@@ -19,7 +28,6 @@
     "start": "tsc -p ./tsconfig.json --watch & ./node_modules/.bin/webpack-dev-server dist/index.js",
     "watch": "./node_modules/.bin/webpack-dev-server dist/index.js"
   },
-  "author": "Samuel Volin @untra",
   "license": "MIT",
   "dependencies": {
     "react": "^16.8.5",
