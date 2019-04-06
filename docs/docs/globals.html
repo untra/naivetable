@@ -914,10 +914,10 @@ img { max-width: 100%; }
 		<div class="tsd-panel tsd-typography">
 			<h1 id="naivetable">NaiveTable</h1>
 			<p><img src="https://untra.io/img/logo-slim.png" alt="NaiveTable"></p>
-			<p><strong>NaiveTable</strong> is a react module that can be used to quickly render a table from an array of objects.</p>
-			<p>It turns a JSON array of objects (typescript type <code>Array&lt;T&gt;</code> of <code>{ [index: string]: any;}</code>) into a rendered <code>&lt;div&gt;</code> table</p>
+			<p><strong>NaiveTable</strong> is a straightforward react <code>^16.8.5</code> functional module that can be used to quickly render a table from an array of objects.</p>
+			<p>It turns a JSON array of objects (typescript type <code>Array&lt;T&gt;</code> of <code>type DataObject = { [index: string]: any;}</code>) into a rendered <code>&lt;span&gt;</code> table.</p>
 			<h2 id="usage">Usage</h2>
-			<h3 id="just-feed-it-consistant-arrayt-of-data">Just feed it consistant <code>Array&lt;T&gt;</code> of data</h3>
+			<h3 id="just-feed-it-consistent-arrayt-of-data">Just feed it consistent <code>Array&lt;T&gt;</code> of data</h3>
 			<pre><code class="language-ts"><span class="hljs-keyword">const</span> data = [
     { a: <span class="hljs-string">'alex'</span>, b: <span class="hljs-number">12</span>, c: <span class="hljs-number">82.56</span> },
     { a: <span class="hljs-string">'brock'</span>, b: <span class="hljs-number">17</span>, c: <span class="hljs-number">93.33</span> },
@@ -964,15 +964,19 @@ img { max-width: 100%; }
 &lt;NaiveTable data={data} cellStyle={cellStyle} /&gt;</code></pre>
 			<h2 id="design">Design</h2>
 			<p>NaiveTable uses react 16.8.5 and hooks to create a straightforward functional JSX.Element react component.</p>
-			<p>It designed with the Single Responsibility Principle in mind: NaiveTable takes data and renders it as straightforwardly as you tell it to, infering reasonable defaults along the way.</p>
-			<h2 id="compatibility">Compatibility</h2>
+			<p>Despite not being written with classes, I kept the <a href="https://en.wikipedia.org/wiki/SOLID"><strong>SOLID principles</strong></a> in mind while designing this package:</p>
+			<p><em>Single Responsibility:</em> This package does one thing, and does it well.</p>
+			<p><em>Open / Close :</em> The rendering and behavior of NaiveTable columns can be extended, and the code is open source.</p>
+			<p><em>Liskov Substitution:</em> By rendering arbitrary <code>DataObjects</code>, and accepting anonymous functions to return their JSX.Elements allow for &quot;subtype&quot; correctness.</p>
+			<p><em>Interface Segregation:</em> Inputs to the function are minimized to tolerate a bare-minimum, and accept more features as desired.</p>
+			<p><em>Dependency Inversion:</em> Concrete details such as <code>data</code> and <code>headers</code> are input into higher-level abstractions.</p>
 			<h2 id="limitations">Limitations</h2>
 			<ul>
 				<li><p><em>It&#39;s super dumb.</em> NaiveTable will render data naively (duh) by using a series of nested divs, and as such is not the most effective solution with large amounts of data. While NaiveTable will render more than a thousand rows with ease, more than a hundred and I would recommend a more dynamic table solution with virtual scroll.</p>
 				</li>
-				<li><p><em>It wants consistancy.</em> NaiveTable likes structured  <code>Array&lt;T&gt;</code> of <code>{ [index: string]: any;}</code> data shapes. While this should be most use cases, this means unstructured data may not be render consistantly.</p>
+				<li><p><em>It wants consistency.</em> NaiveTable likes structured  <code>Array&lt;T&gt;</code> of <code>{ [index: string]: any;}</code> data shapes. While this should be most use cases, this means unstructured data may not be render consistently.</p>
 				</li>
-				<li><p><em>It will reasonably assume what you meant.</em> NaiveTable&#39;s creator has made some asusmptions about what you want the component to behave like, such as default rendering <code>any</code> data values into <code>&lt;p&gt;&lt;/p&gt;</code> tags, defaulting column widths to <code>auto</code>, etc. It is not magic, just trying its best to please.</p>
+				<li><p><em>It will reasonably assume what you meant.</em> NaiveTable&#39;s creator has made some assumptions about what you want the component to behave like, such as default rendering <code>any</code> data values into <code>&lt;p&gt;&lt;/p&gt;</code> tags, defaulting column widths to <code>auto</code>, etc. It is not magic, just trying its best to please.</p>
 				</li>
 			</ul>
 			<h1 id="copyright">Copyright</h1>
