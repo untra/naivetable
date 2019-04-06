@@ -9,6 +9,7 @@
   "private": true,
 
   "devDependencies": {
+    "@types/@untra/naivetable": "0.0.4",
     "react-scripts": "2.1.8"
   },
   "dependencies": {

@@ -2,7 +2,7 @@ import React from 'react'
 import {
     render
 } from 'react-dom'
-import * as NaiveTable from '@untra/naivetable'
+import NaiveTable from '@untra/naivetable'
 
 const blamDataRows = (headers, nToGen) => {
     let rows = []
@@ -25,16 +25,13 @@ class App extends React.Component {
     }
 
     render() {
-        return <NaiveTable data = {
+        return( <NaiveTable data = {
             bigdata
         }
         includeIndex = {
             true
         }
-        headers = {
-            []
-        }
-        />
+        />)
     }
 }
 
