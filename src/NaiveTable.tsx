@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 const indexDataKey = "'index'";
 
+/**
+ * sortDir - which direction the table should sort in
+ * @export
+ * @enum {string}
+ */
 export enum sortDir {
   asc = "asc",
   dsc = "dsc"
@@ -52,14 +57,21 @@ const cssSortable: React.CSSProperties = {
   padding: "12px"
 };
 
-interface DataObj {
+/**
+ * DataObj - any object that is string indexed.
+ * @export
+ * @interface DataObj
+ */
+export interface DataObj {
   [index: string]: any;
 }
+
 /**
- *
+ * TableConfigHeader - proprties of a NaiveTable header
+ * @export
  * @interface TableConfigHeader
  */
-interface TableConfigHeader {
+export interface TableConfigHeader {
   // this is the string label for the table header
   label: string;
   // this is the dataKey that is referenced on the data object when displaying this row
@@ -87,7 +99,13 @@ const defaultHeaders: TableConfigHeader = {
   sort: false
 };
 
-interface TableConfigProps {
+/**
+ * TableConfigProps - properties of a NaiveTable Component.
+ * Only data is required.
+ * @export
+ * @interface TableConfigProps
+ */
+export interface TableConfigProps {
   data: DataObj[];
   sortedData?: DataObj[];
   headers?: TableConfigHeader[];
@@ -104,9 +122,7 @@ interface TableConfigState {
   cellStyle: React.CSSProperties;
 }
 
-type NaiveTableProps = TableConfigProps;
-
-type NaiveTableState = TableConfigState;
+export type NaiveTableProps = TableConfigProps;
 
 const indexHeader: TableConfigHeader = {
   dataKey: indexDataKey,
@@ -167,8 +183,7 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
 
 
 /**
- * NaiveTable is the whole enchilada! This is the react function that takes in the defined props and renders a JSX.Element with everything you need.
- * Nothing scary or magical, just entirely functional and straightforward.
+ * NaiveTable
  * @param {NaiveTableProps} props
  * @returns
  */
