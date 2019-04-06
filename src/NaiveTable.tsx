@@ -187,7 +187,7 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
  * @param {NaiveTableProps} props
  * @returns
  */
-export default function NaiveTable(props: NaiveTableProps) {
+export function NaiveTable(props: NaiveTableProps) {
   const initState = buildInititalState(props);
   const [state, setState] = useState(initState);
   // processSort will sort provided data according to the provided headers
