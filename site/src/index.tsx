@@ -1,4 +1,4 @@
-import { DataObj, NaiveTable, NaiveTableProps } from "@untra/naivetable";
+import { DataObj, NaiveTable } from "@untra/naivetable";
 import React from "react";
 import { render } from "react-dom";
 
@@ -19,11 +19,6 @@ const blamDataRows = (headers: string[], nToGen: number) => {
 const randomData = blamDataRows(["foo", "bar", "baz"], 5);
 
 class App extends React.Component {
-  constructor(props: NaiveTableProps) {
-    super(props);
-    this.state = {};
-  }
-
   public render() {
     return (
       <div className="page-content">
