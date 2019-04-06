@@ -2,3 +2,5 @@ node_modules/
 site/build
 untra-naivetable-*.tgz
 ssiittee/
+.github/
+.vscode/
