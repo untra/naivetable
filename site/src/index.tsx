@@ -31,7 +31,7 @@ class App extends React.Component {
           <h1>🍱 NaiveTable</h1>
           <h2>dumb simple naive <a href="https://reactjs.org/">React</a> {`Array<T>`} data tables</h2>
           <span>
-            <h3>v{version} - <a href="https://naivetable.untra.io/docs">Documentation</a> - <a href="https://github.com/untra/naivetable">Github</a> - <a href="https://naivetable.untra.io/docs">NPM</a></h3>
+            <h3>v{version} - <a href="https://naivetable.untra.io/docs">Documentation</a> - <a href="https://github.com/untra/naivetable">Github</a> - <a href="https://www.npmjs.com/package/@untra/naivetable">NPM</a></h3>
           </span>
           <pre className="highlight">
           <code>{`
