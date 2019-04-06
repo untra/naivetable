@@ -1,8 +1,9 @@
 {
   "name": "@untra/naivetable",
-  "version": "0.0.3",
-  "description": "",
-  "main": "NaiveTable.js",
+  "version": "0.0.4",
+  "description": "Dumb Simple Naive React `Array<T>` Table",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": {
     "name": "Samuel Volin",
     "email": "sam@untra.io",
@@ -20,8 +21,7 @@
     "build": "tsc -p ./tsconfig.json",
     "build:watch": "tsc -p ./tsconfig.json --watch",
     "lint": "tslint --project \"./tsconfig.json\"",
-    "docs": "typedoc --out docs src",
-    "gh-pages": "rimraf docs && npm run docs && gh-pages -d docs",
+    "docs": "typedoc --out docs/docs src",
     "cover": "./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec",
     "ci": "npm run lint && npm run build",
     "ci2": "npm run lint && npm run build && npm run cover",

@@ -1,6 +1,6 @@
 # NaiveTable
 
-![naivetable](https://untra.io/img/logo-slim.png)
+![NaiveTable](https://untra.io/img/logo-slim.png)
 
 **NaiveTable** is a react module that can be used to quickly render a table from an array of objects.
 
@@ -10,7 +10,7 @@ It turns a JSON array of objects (typescript type `Array<T>` of `{ [index: strin
 
 ### Just feed it consistant `Array<T>` of data
 
-```tsx
+```ts
 const data = [
     { a: 'alex', b: 12, c: 82.56 },
     { a: 'brock', b: 17, c: 93.33 },
@@ -25,7 +25,7 @@ const data = [
 
 ### Provide headers for more granular control
 
-```tsx
+```ts
 const headers = [
     // change the rendered header text with the 'label' parameter
     { label: 'name', dataKey: 'a' }
@@ -53,7 +53,7 @@ const headers = [
 
 ### Style the table, and make it easily fit into your app
 
-```tsx
+```ts
 const tableStyle : React.CSSProperties = { ... }
 const cellStyle  : React.CSSProperties = { ... }
 ...
