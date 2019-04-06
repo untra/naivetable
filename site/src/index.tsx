@@ -2,6 +2,8 @@ import { DataObj, NaiveTable, NaiveTableProps } from "@untra/naivetable";
 import React from "react";
 import { render } from "react-dom";
 
+const version = "0.0.7"
+
 const blamDataRows = (headers: string[], nToGen: number) => {
   let rows: DataObj[] = [];
   for (let index = 0; index < nToGen; index++) {
@@ -14,7 +16,7 @@ const blamDataRows = (headers: string[], nToGen: number) => {
   return rows;
 };
 
-const bigdata = blamDataRows(["foo", "bar", "baz"], 10);
+const randomData = blamDataRows(["foo", "bar", "baz"], 5);
 
 class App extends React.Component {
   constructor(props: NaiveTableProps) {
@@ -23,12 +25,25 @@ class App extends React.Component {
   }
 
   public render() {
-    return <div>
-        <h1>NaiveTable</h1>
-        <h2>{`Dumb Simple Naive React Array<T> Table`}</h2>
-        <span>Click to view the <a href="https://naivetable.untra.io/docs">docs</a></span>
-        <NaiveTable data={bigdata} includeIndex={true} />
-    </div>
+    return (
+      <div className="page-content">
+        <div className="wrapper">
+          <h1>🍱 NaiveTable</h1>
+          <h2>dumb simple naive <a href="https://reactjs.org/">React</a> {`Array<T>`} data tables</h2>
+          <span>
+            <h3>v{version} - <a href="https://naivetable.untra.io/docs">Documentation</a> - <a href="https://github.com/untra/naivetable">Github</a> - <a href="https://naivetable.untra.io/docs">NPM</a></h3>
+          </span>
+          <pre className="highlight">
+          <code>{`
+const data = [${JSON.stringify(randomData[0])}...]
+...
+<NaiveTable data={data} includeIndex={true} />
+          `}</code>
+          </pre>
+          <NaiveTable data={randomData} includeIndex={true} />
+        </div>
+      </div>
+    );
   }
 }
 
