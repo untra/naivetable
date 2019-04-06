@@ -2,8 +2,8 @@
   "name": "@untra/naivetable",
   "version": "0.0.5",
   "description": "Dumb Simple Naive React `Array<T>` Table",
-  "main": "dist/NaiveTable.js",
-  "types": "dist/NaiveTable.d.ts",
+  "main": "./dist/NaiveTable.js",
+  "types": "./dist/NaiveTable.d.ts",
   "author": {
     "name": "Samuel Volin",
     "email": "sam@untra.io",

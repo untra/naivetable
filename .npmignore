@@ -1,4 +1,7 @@
 images/
 site/
 docs/
+coverage/
+.github/
+.vscode/
 *.tgz
