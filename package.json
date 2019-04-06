@@ -1,7 +1,7 @@
 {
   "name": "@untra/naivetable",
   "version": "0.0.7",
-  "description": "Dumb Simple Naive React `Array<T>` Table",
+  "description": "Dumb Simple Naive React Array<T> Table",
   "main": "./dist/NaiveTable.js",
   "types": "./dist/NaiveTable.d.ts",
   "author": {
