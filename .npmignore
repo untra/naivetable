@@ -1,6 +1,7 @@
 images/
 site/
 docs/
+src/
 coverage/
 .github/
 .vscode/
