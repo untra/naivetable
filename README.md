@@ -2,13 +2,13 @@
 
 ![NaiveTable](https://untra.io/img/logo-slim.png)
 
-**NaiveTable** is a react module that can be used to quickly render a table from an array of objects.
+**NaiveTable** is a straightforward react `^16.8.5` functional module that can be used to quickly render a table from an array of objects.
 
-It turns a JSON array of objects (typescript type `Array<T>` of `{ [index: string]: any;}`) into a rendered `<div>` table
+It turns a JSON array of objects (typescript type `Array<T>` of `type DataObject = { [index: string]: any;}`) into a rendered `<span>` table.
 
 ## Usage
 
-### Just feed it consistant `Array<T>` of data
+### Just feed it consistent `Array<T>` of data
 
 ```ts
 const data = [
@@ -69,17 +69,25 @@ const cellStyle  : React.CSSProperties = { ... }
 
 NaiveTable uses react 16.8.5 and hooks to create a straightforward functional JSX.Element react component.
 
-It designed with the Single Responsibility Principle in mind: NaiveTable takes data and renders it as straightforwardly as you tell it to, infering reasonable defaults along the way.
+Despite not being written with classes, I kept the [**SOLID principles**](https://en.wikipedia.org/wiki/SOLID) in mind while designing this package:
 
-## Compatibility
+_Single Responsibility:_ This package does one thing, and does it well.
+
+_Open / Close :_ The rendering and behavior of NaiveTable columns can be extended, and the code is open source.
+
+_Liskov Substitution:_ By rendering arbitrary `DataObjects`, and accepting anonymous functions to return their JSX.Elements allow for "subtype" correctness.
+
+_Interface Segregation:_ Inputs to the function are minimized to tolerate a bare-minimum, and accept more features as desired.
+
+_Dependency Inversion:_ Concrete details such as `data` and `headers` are input into higher-level abstractions.
 
 ## Limitations
 
 * _It's super dumb._ NaiveTable will render data naively (duh) by using a series of nested divs, and as such is not the most effective solution with large amounts of data. While NaiveTable will render more than a thousand rows with ease, more than a hundred and I would recommend a more dynamic table solution with virtual scroll.
 
-* _It wants consistancy._ NaiveTable likes structured  `Array<T>` of `{ [index: string]: any;}` data shapes. While this should be most use cases, this means unstructured data may not be render consistantly.
+* _It wants consistency._ NaiveTable likes structured  `Array<T>` of `{ [index: string]: any;}` data shapes. While this should be most use cases, this means unstructured data may not be render consistently.
 
-* _It will reasonably assume what you meant._ NaiveTable's creator has made some asusmptions about what you want the component to behave like, such as default rendering `any` data values into `<p></p>` tags, defaulting column widths to `auto`, etc. It is not magic, just trying its best to please.
+* _It will reasonably assume what you meant._ NaiveTable's creator has made some assumptions about what you want the component to behave like, such as default rendering `any` data values into `<p></p>` tags, defaulting column widths to `auto`, etc. It is not magic, just trying its best to please.
 
 # Copyright
 Copyright (c) Samuel Volin 2019. License: MIT
