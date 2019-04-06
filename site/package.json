@@ -9,14 +9,13 @@
   "private": true,
 
   "devDependencies": {
-    "@types/@untra/naivetable": "0.0.4",
     "react-scripts": "2.1.8"
   },
   "dependencies": {
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-router-dom": "^5.0.0",
-    "@untra/naivetable": "0.0.4",
+    "@untra/naivetable": "0.0.7",
     "webpack": "4.28.3"
   },
   "scripts": {
