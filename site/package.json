@@ -19,6 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "rm -rf ../docs/static",
     "build": "react-scripts build",
     "postbuild": "mv -v build/* ../docs/",
     "test": "react-scripts test --env=jsdom",
