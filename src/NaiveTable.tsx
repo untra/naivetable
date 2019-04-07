@@ -255,8 +255,8 @@ export function NaiveTable(props: NaiveTableProps) {
     const renderRow = render || defaultRenderFunc;
     // if a datakey isn't provided
     const dataVal: any = !dataKey
-      ? // supply the entire data blob
-        data
+      ? // supply the current row dataObject
+        dataObj
       : // otherwise if the key is the special 'index' dataKey
       dataKey === indexDataKey
       ? // supply the offset row index
