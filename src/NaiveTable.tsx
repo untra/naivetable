@@ -80,7 +80,7 @@ export interface TableConfigHeader {
   // a provided width, that defaults to 'auto'
   width?: string;
   // an optional render function, that defaults to a naive rendering function
-  render?: (data: any) => JSX.Element;
+  render?: (data: any) => JSX.Element | string;
   // sortability: typed true, false, 'asc' or 'dsc'
   // true - enable the ability to sort this header
   // asc & dsc - sort the header this
