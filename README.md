@@ -2,7 +2,7 @@
 
 ![NaiveTable](https://untra.io/img/logo-slim.png)
 
-**NaiveTable** is a straightforward react `^16.8.5` functional module that can be used to quickly render a table from an array of objects.
+**NaiveTable** is a straightforward React `^16.8.5` functional module that can be used to quickly render a table from an array of objects.
 
 It turns a JSON array of objects (typescript type `Array<T>` of `type DataObject = { [index: string]: any;}`) into a rendered `<span>` table.
 

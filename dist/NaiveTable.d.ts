@@ -26,7 +26,7 @@ export interface TableConfigHeader {
     label: string;
     dataKey?: string;
     width?: string;
-    render?: (data: any) => JSX.Element;
+    render?: (data: any) => JSX.Element | string;
     sort?: sortDirection;
     style?: React.CSSProperties;
 }
