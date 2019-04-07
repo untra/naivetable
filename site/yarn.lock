@@ -959,9 +959,9 @@
     "@types/unist" "*"
     "@types/vfile-message" "*"
 
-"@untra/naivetable@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@untra/naivetable/-/naivetable-0.0.7.tgz#0033d1cfb5fad200b87fc0d292eb6c4a9a015127"
+"@untra/naivetable@0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@untra/naivetable/-/naivetable-0.0.8.tgz#4b06341380b795f39f40f7262c8defa184ec90f7"
   dependencies:
     react "^16.8.5"
     react-dom "^16.8.5"
