@@ -8,7 +8,7 @@ import test from "./test";
 // for explanation of BrowserRouter hook-up
 
 export default () => (
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <BrowserRouter basename={'https://naivetable.untra.io'}>
   <Switch>
     <Route exact path="/" component={home} />
     <Route exact path="/test" component={test} />
