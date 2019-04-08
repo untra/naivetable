@@ -15,7 +15,7 @@
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-router-dom": "^5.0.0",
-    "@untra/naivetable": "0.0.8",
+    "@untra/naivetable": "0.0.9",
     "webpack": "4.28.3"
   },
   "scripts": {

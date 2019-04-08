@@ -26,7 +26,7 @@ const nameHeaders = [
     // use the 'dataKey' to control the input to the render function
     // provide an empty string to instead call render with the entire dataObject provided
     { label: 'assessment', dataKey: '', render: (val : any) => <h4>{
-        `${JSON.stringify(val)} is ${val.c > 90 ? 'really' : ''} ${val.c > 50 ? 'smart' : 'dumb'}`
+        `${JSON.stringify(val.a)} is ${val.c > 90 ? 'really' : ''} ${val.c > 50 ? 'smart' : 'dumb'}`
     }</h4> },
     // you can have more headers than keys in your dataObjects, btw ;)
     // you can also control the 'width' of the column (pass in 'fr' , defaults to 'auto')
@@ -37,14 +37,22 @@ export default class Test extends React.Component {
   public render() {
     return (
       <div className="wrapper">
-        <span>It should be able to render a variety of data types</span>
+        <h4>It should be able to render a variety of data types</h4>
         <NaiveTable data={fooData}/>
-        <span>It should be able to render an index left adjacent of the data</span>
+        <h4>It should be able to render an index left adjacent of the data</h4>
         <NaiveTable data={fooData} includeIndex={true} />
-        <span>It should be able to render a table with custom headers</span>
+        <h4>It should be able to render a table with custom headers</h4>
         <NaiveTable data={nameData} headers={nameHeaders} includeIndex={true} />
-        <span>It should be able to render an index left adjacent of the data</span>
-        <NaiveTable data={fooData} includeIndex={true} />
+        <h4>It should be able to render individual styling on each header</h4>
+        {'TODO'}
+        <h4>It should be able to render individual styling for the table</h4>
+        {'TODO'}
+        <h4>It should be able to render individual styling for each cell</h4>
+        {'TODO'}
+        <h4>It should be able to display sortable columns</h4>
+        {'TODO'}
+        <h4>It should display sorted column data sorted correctly</h4>
+        {'TODO'}
       </div>
     );
   }
