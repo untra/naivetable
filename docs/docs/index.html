@@ -914,7 +914,7 @@ img { max-width: 100%; }
 		<div class="tsd-panel tsd-typography">
 			<h1 id="naivetable">NaiveTable</h1>
 			<p><img src="https://untra.io/img/logo-slim.png" alt="NaiveTable"></p>
-			<p><strong>NaiveTable</strong> is a straightforward react <code>^16.8.5</code> functional module that can be used to quickly render a table from an array of objects.</p>
+			<p><strong>NaiveTable</strong> is a straightforward React <code>^16.8.5</code> functional module that can be used to quickly render a table from an array of objects.</p>
 			<p>It turns a JSON array of objects (typescript type <code>Array&lt;T&gt;</code> of <code>type DataObject = { [index: string]: any;}</code>) into a rendered <code>&lt;span&gt;</code> table.</p>
 			<h2 id="usage">Usage</h2>
 			<h3 id="just-feed-it-consistent-arrayt-of-data">Just feed it consistent <code>Array&lt;T&gt;</code> of data</h3>
@@ -931,18 +931,18 @@ img { max-width: 100%; }
 			<h3 id="provide-headers-for-more-granular-control">Provide headers for more granular control</h3>
 			<pre><code class="language-ts">const headers = [
     // change the rendered header text with the 'label' parameter
-    { label: 'name', dataKey: 'a' }
+    { label: 'name', dataKey: 'a' },
     // individually style each header cell with the 'style' parameter
-    { label: 'age', dataKey: 'b', style: { backgroundColor: "pink" } }
+    { label: 'age', dataKey: 'b', style: { backgroundColor: "pink" } },
     // provide a 'render' function to control how dataCells render for the column
     { label: 'grade status', dataKey: 'c', render: (val: number) =&gt; &lt;h2&gt;{
         `${val &gt; 50 ? 'passing' : 'failing'} the class`
-    }&lt;/h2&gt; }
+    }&lt;/h2&gt; },
     // use the 'dataKey' to control the input to the render function
     // provide an empty string to instead call render with the entire dataObject provided
-    { label: 'assessment', dataKey: '', render: (val: object) =&gt; &lt;h4&gt;{
-        `${val.a} is ${val.c &gt; 90 ? 'really' : ''} ${val.c &gt; 50 : 'smart' : 'dumb'}`
-    }&lt;/h4&gt; }
+    { label: 'assessment', dataKey: '', render: (val : any) =&gt; &lt;h4&gt;{
+        `${val.a} is ${val.c &gt; 90 ? 'really' : ''} ${val.c &gt; 50 ? 'smart' : 'dumb'}`
+    }&lt;/h4&gt; },
     // you can have more headers than keys in your dataObjects, btw ;)
     // you can also control the 'width' of the column (pass in 'fr' , defaults to 'auto')
     { label: 'comment', dataKey: '', render: () =&gt; 'I like you', width: '4fr' }
