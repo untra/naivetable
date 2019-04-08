@@ -28,18 +28,18 @@ const data = [
 ```ts
 const headers = [
     // change the rendered header text with the 'label' parameter
-    { label: 'name', dataKey: 'a' }
+    { label: 'name', dataKey: 'a' },
     // individually style each header cell with the 'style' parameter
-    { label: 'age', dataKey: 'b', style: { backgroundColor: "pink" } }
+    { label: 'age', dataKey: 'b', style: { backgroundColor: "pink" } },
     // provide a 'render' function to control how dataCells render for the column
     { label: 'grade status', dataKey: 'c', render: (val: number) => <h2>{
         `${val > 50 ? 'passing' : 'failing'} the class`
-    }</h2> }
+    }</h2> },
     // use the 'dataKey' to control the input to the render function
     // provide an empty string to instead call render with the entire dataObject provided
-    { label: 'assessment', dataKey: '', render: (val: object) => <h4>{
-        `${val.a} is ${val.c > 90 ? 'really' : ''} ${val.c > 50 : 'smart' : 'dumb'}`
-    }</h4> }
+    { label: 'assessment', dataKey: '', render: (val : any) => <h4>{
+        `${val.a} is ${val.c > 90 ? 'really' : ''} ${val.c > 50 ? 'smart' : 'dumb'}`
+    }</h4> },
     // you can have more headers than keys in your dataObjects, btw ;)
     // you can also control the 'width' of the column (pass in 'fr' , defaults to 'auto')
     { label: 'comment', dataKey: '', render: () => 'I like you', width: '4fr' }

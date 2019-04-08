@@ -4,3 +4,5 @@ untra-naivetable-*.tgz
 ssiittee/
 .github/
 .vscode/
+videos/
+cypress/integration/examples/

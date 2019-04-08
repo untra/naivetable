@@ -898,13 +898,43 @@
     "@svgr/plugin-svgo" "^4.0.3"
     loader-utils "^1.1.0"
 
+"@types/history@*":
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.2.tgz#0e670ea254d559241b6eeb3894f8754991e73220"
+
 "@types/node@*":
   version "11.13.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.0.tgz#b0df8d6ef9b5001b2be3a94d909ce3c29a80f9e1"
 
+"@types/prop-types@*":
+  version "15.7.0"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.0.tgz#4c48fed958d6dcf9487195a0ef6456d5f6e0163a"
+
 "@types/q@^1.5.1":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
+
+"@types/react-router-dom@4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.3.1.tgz#71fe2918f8f60474a891520def40a63997dafe04"
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+    "@types/react-router" "*"
+
+"@types/react-router@*":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-4.4.5.tgz#1166997dc7eef2917b5ebce890ebecb32ee5c1b3"
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+
+"@types/react@*":
+  version "16.8.12"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.12.tgz#ffbdd7bcd2b7037c3f78e26c708922a2befbb71f"
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
 
 "@types/tapable@1.0.2":
   version "1.0.2"
@@ -929,9 +959,9 @@
     "@types/unist" "*"
     "@types/vfile-message" "*"
 
-"@untra/naivetable@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@untra/naivetable/-/naivetable-0.0.7.tgz#0033d1cfb5fad200b87fc0d292eb6c4a9a015127"
+"@untra/naivetable@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@untra/naivetable/-/naivetable-0.0.9.tgz#0937aa0b16f6cfc77993e28b1a5427623b2e4066"
   dependencies:
     react "^16.8.5"
     react-dom "^16.8.5"
@@ -2551,6 +2581,10 @@ cssstyle@^1.0.0:
   resolved "https://registry.yarnpkg.com/cssstyle/-/cssstyle-1.2.2.tgz#427ea4d585b18624f6fdbf9de7a2a1a3ba713077"
   dependencies:
     cssom "0.3.x"
+
+csstype@^2.2.0:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.3.tgz#b701e5968245bf9b08d54ac83d00b624e622a9fa"
 
 cyclist@~0.2.2:
   version "0.2.2"
