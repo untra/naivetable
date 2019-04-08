@@ -1,6 +1,6 @@
 import { DataObj, NaiveTable } from "@untra/naivetable";
 import React from "react";
-const version = "0.0.9"
+const version = "0.0.9a"
 
 const blamDataRows = (headers: string[], nToGen: number) => {
   let rows: DataObj[] = [];

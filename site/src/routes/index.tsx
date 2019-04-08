@@ -12,5 +12,6 @@ export default () => (
   <Switch>
     <Route exact path="/" component={home} />
     <Route exact path="/test" component={test} />
+    <Route component={() => (<div>404 Not found </div>)} />
   </Switch>
 </BrowserRouter>);
