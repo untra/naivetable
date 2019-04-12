@@ -29,7 +29,7 @@
     "test": "./node_modules/.bin/react-scripts test --env=jsdom",
     "eject": "react-  eject",
     "predeploy": "yarn build",
-    "deploy": "./node_modules/.bin/gh-pages -d build"
+    "deploy": "./node_modules/.bin/gh-pages -d ../docs"
   },
   "browserslist": [
     ">0.2%",
