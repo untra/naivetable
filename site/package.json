@@ -8,23 +8,28 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "@types/react-highlight": "^0.12.1",
     "@types/react-router-dom": "4.3.1",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "gh-pages": "2.0.1"
   },
   "dependencies": {
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-router-dom": "^5.0.0",
+    "react-highlight": "^0.12.0",
     "@untra/naivetable": "0.0.9",
     "webpack": "4.28.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "./node_modules/.bin/react-scripts start",
     "prebuild": "rm -rf ../docs/static",
-    "build": "react-scripts build",
+    "build": "./node_modules/.bin/react-scripts build",
     "postbuild": "mv -v build/* ../docs/",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "./node_modules/.bin/react-scripts test --env=jsdom",
+    "eject": "react-  eject",
+    "predeploy": "yarn build",
+    "deploy": "./node_modules/.bin/gh-pages -d build"
   },
   "browserslist": [
     ">0.2%",

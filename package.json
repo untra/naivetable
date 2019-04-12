@@ -31,11 +31,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "cypress": "^3.2.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5"
   },
   "devDependencies": {
+    "cypress": "^3.2.0",
     "@babel/core": "^7.2.2",
     "@babel/preset-react": "^7.0.0",
     "@types/chai": "^4.1.7",

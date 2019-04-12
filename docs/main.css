@@ -42,14 +42,6 @@ a:hover { color: #00B2EE; text-decoration: none; }
 blockquote { color: #BBB; border-left: 4px solid #00B2EE; padding-left: 15px; font-size: 17px; letter-spacing: -1px; font-style: italic; }
 blockquote > :last-child { margin-bottom: 0; }
 
-/* Code Blocks ============================================== */
-pre, code { font-size: 13px; border: 1px solid #cecece; font-family: Menlo, Monaco, "Andale Mono", serif; }
-
-code { padding: 1px 3px; background-color: #FFF; border-radius: 5px; }
-
-pre { border-radius: 3px; padding: 8px 12px; overflow-x: scroll; background-color: #F5F5F5; }
-pre > code { background-color: #F5F5F5; border: 0; padding-right: 0; padding-left: 0; }
-
 /* Wrapper ============================================== */
 .wrapper { max-width: -webkit-calc(700px - (30px * 2)); max-width: calc(700px - (30px * 2)); margin-right: auto; margin-left: auto; padding-right: 30px; padding-left: 30px; }
 @media screen and (max-width: 700px) { .wrapper { max-width: -webkit-calc(700px - (30px)); max-width: calc(700px - (30px)); padding-right: 15px; padding-left: 15px; } }

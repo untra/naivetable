@@ -21,7 +21,7 @@ const nameHeaders = [
     { label: 'age', dataKey: 'b', style: { backgroundColor: "pink" } },
     // provide a 'render' function to control how dataCells render for the column
     { label: 'grade status', dataKey: 'c', render: (val: number) => <h2>{
-        `${val > 50 ? 'passing' : 'failing'} the class`
+        `${val > 50 ? '✅passing' : '❌failing'} the class`
     }</h2> },
     // use the 'dataKey' to control the input to the render function
     // provide an empty string to instead call render with the entire dataObject provided
@@ -30,7 +30,7 @@ const nameHeaders = [
     }</h4> },
     // you can have more headers than keys in your dataObjects, btw ;)
     // you can also control the 'width' of the column (pass in 'fr' , defaults to 'auto')
-    { label: 'comment', dataKey: '', render: () => 'I like you', width: '4fr' }
+    { label: 'comment', dataKey: '', render: () => 'I like you 💙', width: '4fr' }
 ]
 
 export default class Test extends React.Component {
@@ -53,6 +53,10 @@ export default class Test extends React.Component {
         {'TODO'}
         <h4>It should display sorted column data sorted correctly</h4>
         {'TODO'}
+        <h4>It should be able to render empty data</h4>
+        <NaiveTable data={[]}/>
+        <h4>It should be able to render a data of one</h4>
+        <NaiveTable data={[{of:"one"}]}/>
       </div>
     );
   }

@@ -1,11 +1,12 @@
-import { DataObj, NaiveTable } from "@untra/naivetable";
+import * as naivetable from "@untra/naivetable";
 import React from "react";
+import Highlight from 'react-highlight'
 const version = "0.0.9a"
 
 const blamDataRows = (headers: string[], nToGen: number) => {
-  let rows: DataObj[] = [];
+  let rows: naivetable.DataObj[] = [];
   for (let index = 0; index < nToGen; index++) {
-    const row: DataObj = {};
+    const row: naivetable.DataObj = {};
     headers.forEach(header => {
       row[header] = Math.random();
     });
@@ -25,14 +26,13 @@ export default class Home extends React.Component {
             <span>
               <h3>v{version} - <a href="https://naivetable.untra.io/docs">Documentation</a> - <a href="https://github.com/untra/naivetable">Github</a> - <a href="https://www.npmjs.com/package/@untra/naivetable">NPM</a></h3>
             </span>
-            <pre className="highlight">
-            <code>{`
+            <Highlight className='typescript'>
+{`
   const data = [${JSON.stringify(randomData[0])}...]
   ...
   <NaiveTable data={data} includeIndex={true} />
-            `}</code>
-            </pre>
-            <NaiveTable data={randomData} includeIndex={true} />
+            `}</Highlight>
+            <naivetable.NaiveTable data={randomData} includeIndex={true} />
           </div>
         </div>
       );
