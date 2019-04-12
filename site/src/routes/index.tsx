@@ -8,10 +8,17 @@ import test from "./test";
 // for explanation of BrowserRouter hook-up
 
 export default () => (
-  <BrowserRouter basename={'https://naivetable.untra.io'}>
-  <Switch>
-    <Route exact path="/" component={home} />
-    <Route exact path="/test" component={test} />
-    <Route component={() => (<div>404 Not found </div>)} />
-  </Switch>
-</BrowserRouter>);
+  <BrowserRouter basename={"https://untra.github.io/naivetable"}>
+    <Switch>
+      <Route exact path="/" component={home} />
+      <Route exact path="/test" component={test} />
+      <Route
+        component={() => (
+          <div className="wrapper">
+            <h1>{"404 Not found"}</h1>{" "}
+          </div>
+        )}
+      />
+    </Switch>
+  </BrowserRouter>
+);

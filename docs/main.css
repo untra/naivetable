@@ -43,7 +43,7 @@ blockquote { color: #BBB; border-left: 4px solid #00B2EE; padding-left: 15px; fo
 blockquote > :last-child { margin-bottom: 0; }
 
 /* Wrapper ============================================== */
-.wrapper { max-width: -webkit-calc(700px - (30px * 2)); max-width: calc(700px - (30px * 2)); margin-right: auto; margin-left: auto; padding-right: 30px; padding-left: 30px; }
+.wrapper { max-width: 65%; min-width: -webkit-calc(700px - (30px * 2)); min-width: calc(700px - (30px * 2)); margin-right: auto; margin-left: auto; padding-right: 30px; padding-left: 30px; }
 @media screen and (max-width: 700px) { .wrapper { max-width: -webkit-calc(700px - (30px)); max-width: calc(700px - (30px)); padding-right: 15px; padding-left: 15px; } }
 
 /* Clear Fix ============================================== */
