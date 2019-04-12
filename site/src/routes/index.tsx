@@ -11,7 +11,7 @@ export default () => (
   <BrowserRouter basename={"https://untra.github.io/naivetable"}>
     <Switch>
       <Route exact path="/" component={home} />
-      <Route exact path="/test" component={test} />
+      <Route path="/test" component={test} />
       <Route
         component={() => (
           <div className="wrapper">

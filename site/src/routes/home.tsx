@@ -1,7 +1,7 @@
 import * as naivetable from "@untra/naivetable";
 import React from "react";
 import Highlight from 'react-highlight'
-const version = "0.0.9b"
+const version = "0.0.9c"
 
 const blamDataRows = (headers: string[], nToGen: number) => {
   let rows: naivetable.DataObj[] = [];
