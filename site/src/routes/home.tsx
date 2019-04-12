@@ -2,7 +2,7 @@ import * as naivetable from "@untra/naivetable";
 import React from "react";
 import Highlight from "react-highlight";
 import { Link } from "react-router-dom";
-const version = "0.0.9g";
+const version = "0.0.9h";
 
 const blamDataRows = (headers: string[], nToGen: number) => {
   let rows: naivetable.DataObj[] = [];
