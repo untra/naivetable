@@ -1,0 +1,15 @@
+{
+  "short_name": "NaiveTable",
+  "name": "Dumb Simple Naive React `Array<T>` Table",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000088",
+  "background_color": "#8888ff"
+}
