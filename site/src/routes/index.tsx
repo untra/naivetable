@@ -8,7 +8,7 @@ import test from "./test";
 // for explanation of BrowserRouter hook-up
 
 export default () => (
-  <HashRouter basename={"naivetable.untra.io"}>
+  <HashRouter basename={"https://naivetable.untra.io"}>
     <Switch>
       <Route exact path="/test" component={test} />
       <Route exact path="/" component={home} />
