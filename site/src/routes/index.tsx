@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 import home from "./home";
 import test from "./test";
@@ -8,10 +8,10 @@ import test from "./test";
 // for explanation of BrowserRouter hook-up
 
 export default () => (
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <HashRouter basename={"naivetable.untra.io"}>
     <Switch>
+      <Route exact path="/test" component={test} />
       <Route exact path="/" component={home} />
-      <Route path="/test" component={test} />
       <Route
         component={() => (
           <div className="wrapper">
@@ -20,5 +20,5 @@ export default () => (
         )}
       />
     </Switch>
-  </BrowserRouter>
+  </HashRouter>
 );
