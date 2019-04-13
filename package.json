@@ -1,6 +1,6 @@
 {
   "name": "@untra/naivetable",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Dumb Simple Naive React Array<T> Table",
   "main": "./dist/NaiveTable.js",
   "types": "./dist/NaiveTable.d.ts",
@@ -35,7 +35,6 @@
     "react-dom": "^16.8.5"
   },
   "devDependencies": {
-    "cypress": "^3.2.0",
     "@babel/core": "^7.2.2",
     "@babel/preset-react": "^7.0.0",
     "@types/chai": "^4.1.7",
@@ -47,6 +46,7 @@
     "babel-loader": "^8.0.5",
     "chai": "^4.2.0",
     "css-loader": "^0.28.11",
+    "cypress": "^3.2.0",
     "gh-pages": "^2.0.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
