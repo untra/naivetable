@@ -4,7 +4,7 @@
 
 **NaiveTable** is a straightforward React `^16.8.5` functional module that can be used to quickly render a table from an array of objects.
 
-It turns a JSON array of objects (typescript type `Array<T>` of `type DataObject = { [index: string]: any;}`) into a rendered `<span>` table.
+It turns a JSON array of objects (typescript type `Array<T>` of `type DataObject = { [index: string]: any;}`) into a `<span>` table.
 
 ## Usage
 
@@ -61,7 +61,7 @@ const cellStyle  : React.CSSProperties = { ... }
 <NaiveTable data={data} headers={headers} />
 // provide css styles for the entire wrapping table
 <NaiveTable data={data} tableStyle={tableStyle} />
-// provide css styes for all cells in the table
+// provide css styles for all cells in the table
 <NaiveTable data={data} cellStyle={cellStyle} />
 ```
 

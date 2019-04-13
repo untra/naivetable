@@ -1,0 +1,33 @@
+{
+  "en": {
+    "xx": "english",
+    "n1": "alex",
+    "n2": "brock",
+    "n3": "charlie",
+    "w0": "it is",
+    "w1": "dumb",
+    "w2": "simple",
+    "w3": "naive",
+    "w4": "table",
+    "w5": "consistent",
+    "w6": "assuming",
+    "w7": "data",
+    "p1": "Just feed it",
+    "p2": "provide headers",
+    "p3": "for more granular control",
+    "p4": "style the table",
+    "p5": "and make it easily fit your app",
+    "i1": "is a straightforward React functional module that can quickly render a table from an array of objects",
+    "i2a": "Naivetable does one thing and does it well: visualizing ",
+    "i2b": "data in a clean and concise manner with a few choice assumptions on style.",
+    "h0": "...just add data!",
+    "h1a": "if you need a rendered table of data RIGHT NOW",
+    "h1b": "NaiveTable just infers the headers 'a', 'b', and 'c'",
+    "h1c": "this is the most straightforward way to use NaiveTable",
+    "o1": "Usage",
+    "o2": "Design",
+    "o3": "Compatability",
+    "o4": "Copyright",
+    "copyright": "Copyright (c) Samuel Volin 2019. License: MIT"
+  }
+}
