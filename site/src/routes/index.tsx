@@ -11,16 +11,14 @@ const reload = () => window.location.reload();
 
 export default () => (
   <BrowserRouter>
-    <Switch>
-      <Route path="/test" component={test} onEnter={reload} />
-      <Route exact path="/" component={home} />
-      <Route
-        component={() => (
-          <div className="wrapper">
-            <h1>{"404 Not found"}</h1>{" "}
-          </div>
-        )}
-      />
-    </Switch>
+    <Route path="/test" component={test} onEnter={reload} />
+    <Route exact path="/" component={home} />
+    <Route
+      component={() => (
+        <div className="wrapper">
+          <h1>{"404 Not found"}</h1>{" "}
+        </div>
+      )}
+    />
   </BrowserRouter>
 );
