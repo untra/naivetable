@@ -10,7 +10,7 @@ import test from "./test";
 const reload = () => window.location.reload();
 
 export default () => (
-  <BrowserRouter basename={"/"}>
+  <BrowserRouter>
     <Switch>
       <Route path="/test" component={test} onEnter={reload} />
       <Route exact path="/" component={home} />
