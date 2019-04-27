@@ -912,10 +912,11 @@ img { max-width: 100%; }
 <div class="container container-main">
 	<div class="content-wrap">
 		<div class="tsd-panel tsd-typography">
-			<h1 id="naivetable">NaiveTable</h1>
-			<p><img src="https://untra.io/img/logo-slim.png" alt="NaiveTable"></p>
+			<h1 id="-naivetable">🍱 NaiveTable</h1>
+			<h2 id="dumb-simple-naive-react-arrayt-data-table">dumb, simple, naive <a href="https://reactjs.org/">React</a> <code>Array&lt;T&gt;</code> data table</h2>
+			<h3 id="site-docs-test-npm"><a href="%22https://naivetable.untra.io%22">site</a> - <a href="%22https://naivetable.untra.io/docs%22">docs</a> - <a href="%22https://naivetable.untra.io/test%22">test</a> - <a href="%22https://www.npmjs.com/package/@untra/naivetable%22">npm</a></h3>
 			<p><strong>NaiveTable</strong> is a straightforward React <code>^16.8.5</code> functional module that can be used to quickly render a table from an array of objects.</p>
-			<p>It turns a JSON array of objects (typescript type <code>Array&lt;T&gt;</code> of <code>type DataObject = { [index: string]: any;}</code>) into a rendered <code>&lt;span&gt;</code> table.</p>
+			<p>It turns a JSON array of objects (typescript type <code>Array&lt;T&gt;</code> of <code>type DataObject = { [index: string]: any;}</code>) into a <code>&lt;span&gt;</code> table.</p>
 			<h2 id="usage">Usage</h2>
 			<h3 id="just-feed-it-consistent-arrayt-of-data">Just feed it consistent <code>Array&lt;T&gt;</code> of data</h3>
 			<pre><code class="language-ts"><span class="hljs-keyword">const</span> data = [
@@ -960,7 +961,7 @@ img { max-width: 100%; }
 &lt;NaiveTable data={data} headers={headers} /&gt;
 <span class="hljs-comment">// provide css styles for the entire wrapping table</span>
 &lt;NaiveTable data={data} tableStyle={tableStyle} /&gt;
-<span class="hljs-comment">// provide css styes for all cells in the table</span>
+<span class="hljs-comment">// provide css styles for all cells in the table</span>
 &lt;NaiveTable data={data} cellStyle={cellStyle} /&gt;</code></pre>
 			<h2 id="design">Design</h2>
 			<p>NaiveTable uses react 16.8.5 and hooks to create a straightforward functional JSX.Element react component.</p>
