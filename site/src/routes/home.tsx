@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import words from "../content/home-content.json";
 
 type SupportedLangs = keyof typeof words;
-const version = "0.1.1";
+const version = "0.1.1a";
 
 const blamDataRows = (headers: string[], nToGen: number) => {
   let rows: DataObj[] = [];
