@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch, HashRouter } from "react-router-dom";
 
 import home from "./home";
 import test from "./test";
@@ -10,9 +10,9 @@ import test from "./test";
 const reload = () => window.location.reload();
 
 export default () => (
-  <BrowserRouter>
+  <HashRouter>
   <Switch>
-    <Route path="/test" component={test} onEnter={reload} />
+    <Route exact path="/test" component={test} onEnter={reload} />
     <Route exact path="/" component={home} />
     <Route
       component={() => (
@@ -22,5 +22,5 @@ export default () => (
       )}
     />
     </Switch>
-  </BrowserRouter>
+  </HashRouter>
 );
