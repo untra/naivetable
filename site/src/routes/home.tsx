@@ -1,11 +1,11 @@
-import { NaiveTable, DataObj } from "@untra/naivetable";
+import { DataObj, NaiveTable } from "@untra/naivetable";
 import React from "react";
 import Highlight from "react-highlight";
 import { Link } from "react-router-dom";
 import words from "../content/home-content.json";
 
 type SupportedLangs = keyof typeof words;
-const version = "0.1.1g";
+const version = "0.1.1i";
 
 const blamDataRows = (headers: string[], nToGen: number) => {
   let rows: DataObj[] = [];
