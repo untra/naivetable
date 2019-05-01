@@ -10,8 +10,12 @@ export enum sortDir {
   asc = "asc",
   dsc = "dsc"
 }
+type compareFn = ((a: any, b: any) => number)
+type sortDirection = sortDir | boolean | compareFn ;
 
-type sortDirection = sortDir | boolean;
+const defaultComparefn : compareFn = (a: any, b: any) => {
+  return `${a}`.localeCompare(`${b}`)
+}
 
 const defaultTableStyle: React.CSSProperties = {
   display: "grid",
@@ -107,7 +111,6 @@ const defaultHeaders: TableConfigHeader = {
  */
 export interface TableConfigProps {
   data: DataObj[];
-  sortedData?: DataObj[];
   headers?: TableConfigHeader[];
   includeIndex?: boolean;
   tableStyle?: React.CSSProperties;
@@ -115,7 +118,9 @@ export interface TableConfigProps {
 }
 
 interface TableConfigState {
-  data: DataObj[];
+  sortedData: DataObj[];
+  sortIndex?: number
+  sortDir?: sortDir
   headers: TableConfigHeader[];
   includeIndex: boolean;
   tableStyle: React.CSSProperties;
@@ -154,6 +159,25 @@ const inferHeadersFromData = (data: DataObj[]): TableConfigHeader[] => {
 const headerColumnWidths = (headers: TableConfigHeader[]) =>
   headers.reduce((acc, header) => `${acc} ${header.width || "auto"} `, "");
 
+// processSort will sort provided data according to the provided headers
+const processSort = (data: DataObj[], headers: TableConfigHeader[]) => {
+  const sortFn = (acc: DataObj[], header: TableConfigHeader): DataObj[] => {
+    const { sort, dataKey } = header;
+    const key = dataKey || ''
+    if (sort === sortDir.asc) {
+      return acc.sort((a,b) => defaultComparefn(a[key] , b[key]));
+    }
+    if (sort === sortDir.dsc) {
+      return acc.sort((a,b) => -defaultComparefn(a[key] , b[key]));
+    }
+    if(typeof sort === 'function' ){
+      return acc.sort((a,b) => sort(a,b))
+    }
+    return acc;
+  };
+  return headers.reduce(sortFn, data);
+};
+
 /**
  * Creates the initial NaiveTable state from the initial props
  * @param {NaiveTableProps} props
@@ -171,10 +195,10 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   const incIndexHeader: TableConfigHeader[] = includeIndex ? [indexHeader] : [];
   const incHeaders = props.headers ? props.headers : inferHeadersFromData(data);
   const headers = [...incIndexHeader, ...incHeaders];
-
+  const sortedData = processSort(data, headers)
   return {
     headers,
-    data,
+    sortedData,
     includeIndex,
     cellStyle,
     tableStyle
@@ -189,23 +213,10 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
  */
 export function NaiveTable(props: NaiveTableProps) {
   const initState = buildInititalState(props);
+  // useState hook
   const [state, setState] = useState(initState);
-  // processSort will sort provided data according to the provided headers
-  const processSort = (data: DataObj[], headers: TableConfigHeader[]) => {
-    const sortFn = (acc: DataObj[], header: TableConfigHeader): DataObj[] => {
-      const { sort, dataKey } = header;
-      const key = dataKey || ''
-      if (sort === sortDir.asc) {
-        return acc.sort((a,b) => (a[key] > b[key] ? 1 : -1 ));
-      }
-      if (sort === sortDir.dsc) {
-        return acc.sort((a,b) => (a[key] < b[key] ? 1 : -1 ));
-      }
-      return acc;
-    };
-    return headers.reduce(sortFn, data);
-  };
-  const { headers, data, tableStyle, cellStyle } = state;
+  // destructure from state
+  const { headers, sortedData, tableStyle, cellStyle } = state;
   // the gridStyle is injected into the table dynamically
   const gridTemplateColumns = headerColumnWidths(headers);
   const gridStyle = { ...tableStyle, gridTemplateColumns };
@@ -275,8 +286,6 @@ export function NaiveTable(props: NaiveTableProps) {
     tableData: DataObj,
     indexr: number
   ) => tableHeaders.map(renderDataRow(tableData, indexr));
-  // JIT before we render anything at all we sort our data
-  const sortedData = processSort(data, headers);
   // this our rendered data
   const renderTable = (
     <div style={gridStyle}>
