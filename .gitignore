@@ -8,3 +8,4 @@ videos/
 cypress/integration/examples/
 docs/
 build/
+yarn-error.log
