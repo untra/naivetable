@@ -1,6 +1,6 @@
 {
   "name": "@untra/naivetable",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Dumb Simple Naive React Array<T> Table",
   "main": "./dist/NaiveTable.js",
   "types": "./dist/NaiveTable.d.ts",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "postversion": "git push && git push --tags",
-    "prepublishOnly": "npm run ci && npm run defs",
+    "prepublishOnly": "npm run ci",
     "preversion": "npm run ci",
     "test": "mocha --reporter spec",
     "build": "tsc -p ./tsconfig.json",
@@ -29,7 +29,7 @@
     "ci2": "npm run lint && npm run build && npm run cover",
     "start": "./node_modules/.bin/react-scripts start",
     "deploy": "./node_modules/.bin/gh-pages -d ./build",
-    "predeploy": "yarn build",
+    "predeploy": "yarn build:site",
     "watch": "./node_modules/.bin/webpack-dev-server dist/index.js"
   },
   "license": "MIT",
