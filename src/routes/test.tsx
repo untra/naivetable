@@ -1,5 +1,7 @@
-import { NaiveTable } from "@untra/naivetable";
+// tslint:disable-next-line: no-implicit-dependencies
+// import { NaiveTable, TableConfigHeader } from "@untra/naivetable"
 import React from "react";
+import { NaiveTable, TableConfigHeader } from "../NaiveTable"
 
 const fooData = [
     {foo: 1, bar: "2", baz: 3.1, etc: true },
@@ -32,6 +34,18 @@ const nameHeaders = [
     // you can also control the 'width' of the column (pass in 'fr' , defaults to 'auto')
     { label: 'comment', dataKey: '', render: () => 'I like you 💙', width: '4fr' }
 ]
+const styleHeaders : TableConfigHeader[] = [
+  { label: 'name', dataKey: 'a', style: { backgroundColor: 'red'} },
+  { label: 'age', dataKey: 'b', style: { backgroundColor: 'green'} },
+  { label: 'mana', dataKey: 'c', style: { backgroundColor: 'blue'} },
+  { label: 'missing', dataKey: '', style: { backgroundColor: 'yellow', opacity: 0.5} },
+  { label: 'stretch index', dataKey: "'index'", style: { backgroundColor: 'red', transform: 'scale(2, 0.5)', color: 'white'} },
+  { label: 'flip index', dataKey: "'index'", style: { backgroundColor: 'yellow', transform: 'rotate(0.5turn)', color: 'white'} },
+  { label: 'skew index', dataKey: "'index'", style: { backgroundColor: 'green', transform: 'skew(30deg, 20deg)', color: 'white'} },
+  { label: 'shift index', dataKey: "'index'", style: { backgroundColor: 'cyan', transform: 'translate(120px, 50%);', color: 'black'} },
+  { label: 'keanu index', dataKey: "'index'", style: { backgroundColor: 'blue', transform: 'matrix(1, 2, 3, 4, 5, 6)', color: 'black'} }
+
+]
 
 export default class Test extends React.Component {
   public render() {
@@ -44,7 +58,7 @@ export default class Test extends React.Component {
         <h4>It should be able to render a table with custom headers</h4>
         <NaiveTable data={nameData} headers={nameHeaders} includeIndex={true} />
         <h4>It should be able to render individual styling on each header</h4>
-        {'TODO'}
+        <NaiveTable data={nameData} headers={styleHeaders} />
         <h4>It should be able to render individual styling for the table</h4>
         {'TODO'}
         <h4>It should be able to render individual styling for each cell</h4>

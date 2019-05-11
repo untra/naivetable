@@ -1,11 +1,15 @@
-import { DataObj, NaiveTable } from "@untra/naivetable";
 import React from "react";
+// tslint:disable-next-line: no-implicit-dependencies
 import Highlight from "react-highlight";
+// tslint:disable-next-line: no-implicit-dependencies
 import { Link } from "react-router-dom";
-import words from "../content/home-content.json";
+import packageJSON from '../../package.json'
+import wwords from "../content/home-content.json";
+import { DataObj, NaiveTable } from "../NaiveTable";
+const words : { [index:string] : {[index:string]: string}} = wwords
 
 type SupportedLangs = keyof typeof words;
-const version = "0.1.1i";
+const version = packageJSON.version
 
 const blamDataRows = (headers: string[], nToGen: number) => {
   let rows: DataObj[] = [];
@@ -44,7 +48,7 @@ export default class Home extends React.Component<HomeScreenProps> {
     return (
       <div className="page-content">
         <div className="wrapper">
-          <h1>🍱 NaiveTable</h1>
+          <h1><span role="img" aria-label="Bento">🍱</span> NaiveTable</h1>
           <h2>
             {W("w1")} {W("w2")} {W("w3")}{" "}
             <a href="https://reactjs.org/">React</a> {`Array<T>`} {W("w7")}
@@ -71,7 +75,8 @@ export default class Home extends React.Component<HomeScreenProps> {
             <code>{" Array<T> "}</code>
             {W("i2b")}
           </div>
-          <Highlight className="tsx">{`const data = [${JSON.stringify(randomData[0], null, 2)}]
+          <Highlight className="tsx">{`import { NaiveTable } from "@untra/naivetable"
+const data = [${JSON.stringify(randomData[0], null, 2)}...]
 // ${W("h0")}
 <NaiveTable data={data} />`}
           </Highlight>

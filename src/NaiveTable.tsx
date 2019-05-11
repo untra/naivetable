@@ -33,7 +33,7 @@ const defaultCellStyle: React.CSSProperties = {
 };
 
 const defaultHeaderStyle: React.CSSProperties = {
-  backgroundColor: "rgb(220,220,220)",
+  backgroundColor: "lightgray",
   fontWeight: "bold"
 };
 
@@ -211,7 +211,7 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
  * @param {NaiveTableProps} props
  * @returns
  */
-export function NaiveTable(props: NaiveTableProps) {
+export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) => {
   const initState = buildInititalState(props);
   // useState hook
   const [state, setState] = useState(initState);
@@ -295,3 +295,4 @@ export function NaiveTable(props: NaiveTableProps) {
   );
   return <div>{renderTable}</div>;
 }
+

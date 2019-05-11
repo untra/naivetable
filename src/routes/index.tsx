@@ -1,4 +1,5 @@
 import React from "react";
+// tslint:disable-next-line: no-implicit-dependencies
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 import home from "./home";
