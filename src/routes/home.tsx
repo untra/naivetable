@@ -52,7 +52,7 @@ export default class Home extends React.Component<HomeScreenProps> {
           <h2>
             {W("w1")} {W("w2")} {W("w3")}{" "}
             <a href="https://reactjs.org/">React</a> {`Array<T>`} {W("w7")}
-            {W("w4")}
+            {W("w4")} {W("w8")}
           </h2>
 
           <span>
@@ -61,7 +61,8 @@ export default class Home extends React.Component<HomeScreenProps> {
               <a href="https://naivetable.untra.io/docs">Documentation</a> -{" "}
               <Link to="/test">Tests</Link>-{" "}
               <a href="https://github.com/untra/naivetable">Github</a> -{" "}
-              <a href="https://www.npmjs.com/package/@untra/naivetable">NPM</a>
+              <a href="https://www.npmjs.com/package/@untra/naivetable">NPM</a> -{" "}
+              <a href="https://dashboard.cypress.io/#/projects/wrytfx/runs">Cypress</a>
             </h4>
           </span>
           <hr />

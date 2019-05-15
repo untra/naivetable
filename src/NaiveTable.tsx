@@ -207,18 +207,19 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
 
 
 /**
- * NaiveTable
+ * NaiveTable - a dumb simple naive React data table component
  * @param {NaiveTableProps} props
  * @returns
  */
 export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) => {
   const initState = buildInititalState(props);
-  // useState hook
+  // useState hook - rule of thumb is to call the useState hook early and once during execution
   const [state, setState] = useState(initState);
-  // destructure from state
+  // destructure the properties from state
   const { headers, sortedData, tableStyle, cellStyle } = state;
-  // the gridStyle is injected into the table dynamically
+  // infers the grid widths of the headers
   const gridTemplateColumns = headerColumnWidths(headers);
+  // the gridStyle is injected into the table dynamically
   const gridStyle = { ...tableStyle, gridTemplateColumns };
   // toggleHeader will sort the data by the header sort at the given index
   const toggleHeader = (index: number) => {
@@ -230,7 +231,7 @@ export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) 
     updatedHeaders[index] = updatedHeader;
     return updatedHeaders;
   };
-  // renderHeader will render the given header at the designated index
+  // renderHeader will create a <span> for the given header at the designated index
   const renderHeader = (header: TableConfigHeader, index: number) => {
     const { sort, label, style } = header;
     const headerStyle = { ...defaultHeaderStyle, ...cellStyle, ...style };
@@ -256,13 +257,14 @@ export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) 
       </span>
     );
   };
-  // renderDataRow will render the given data at the designated index
-  const renderDataRow = (dataObj: DataObj, indexr: number) => (
+  // renderDataRow will create the <span> with the given data at the designated index,
+  // using the provided header
+  const renderDataRow = (dataObj: DataObj, rowIndex: number) => (
     header: TableConfigHeader,
     index: number
   ) => {
     const { dataKey, render } = header;
-    // if the user specified a render function, use that
+    // if a data render function was specified, use that
     const renderRow = render || defaultRenderFunc;
     // if a datakey isn't provided
     const dataVal: any = !dataKey
@@ -271,9 +273,9 @@ export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) 
       : // otherwise if the key is the special 'index' dataKey
       dataKey === indexDataKey
       ? // supply the offset row index
-        indexr + 1
+        rowIndex + 1
       : // otherwise supply the row data at the given dataKey
-        // emphasize: we want return 'undefined' here if undefined
+        // emphasize: we do want return 'undefined' here if undefined
         dataObj[dataKey];
     return (
       <span key={index} style={cellStyle}>
@@ -293,6 +295,6 @@ export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) 
       {sortedData.map(renderDataRows(headers))}
     </div>
   );
-  return <div>{renderTable}</div>;
+  return <div className="naivetable">{renderTable}</div>;
 }
 

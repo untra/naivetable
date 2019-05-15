@@ -1,5 +1,5 @@
 # 🍱 NaiveTable
-## dumb, simple, naive [React](https://reactjs.org/) `Array<T>` data table
+## a dumb, simple, naive [React](https://reactjs.org/) `Array<T>` data table component
 
 **NaiveTable** is a straightforward React `^16.8.5` functional module that can be used to quickly render a table from an array of objects.
 
