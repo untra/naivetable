@@ -31,8 +31,12 @@ interface HomeScreenProps {
 }
 
 export default class Home extends React.Component<HomeScreenProps> {
+  private readonly randomFilenames = ['copy', 'new-hot-startup', 'foobarbaz', 'blockchainz', 'stuff', 'wack-wack-wack', '1']
+  private randomFilename = this.randomFilenames[0]
   constructor(props: HomeScreenProps) {
     super(props);
+    const rand = Math.floor( Math.random() * this.randomFilenames.length)
+    this.randomFilename = this.randomFilenames[rand] || this.randomFilename
     const { lang } = props;
   }
 
@@ -50,10 +54,9 @@ export default class Home extends React.Component<HomeScreenProps> {
         <div className="wrapper">
           <h1><span role="img" aria-label="Bento">🍱</span> NaiveTable</h1>
           <h2>
-            {W("w1")} {W("w2")} {W("w3")}{" "}
-            <a href="https://reactjs.org/">React</a> {`Array<T>`} {W("w7")}
-            {W("w4")} {W("w8")}
-          </h2>
+            {W("w1")} {W("w2")} {W("w9")} {W("w3")}{" "}{`Array<T>`} {W("w7")}
+            {W("w4")}{" "}
+          </h2><h2><a href="https://reactjs.org/">React</a> <a href="https://reactjs.org/docs/hooks-intro.html/">(Hooks)</a>  {W("w8")}</h2>
 
           <span>
             <h4>
@@ -76,9 +79,13 @@ export default class Home extends React.Component<HomeScreenProps> {
             <code>{" Array<T> "}</code>
             {W("i2b")}
           </div>
-          <Highlight className="tsx">{`import { NaiveTable } from "@untra/naivetable"
-const data = [${JSON.stringify(randomData[0], null, 2)}...]
-// ${W("h0")}
+          <Highlight className="tsx">{
+`// react-app-${this.randomFilename}.tsx
+import React from "react";
+import { NaiveTable } from "@untra/naivetable";
+// ${W("h0a")}
+const data = [${JSON.stringify(randomData[0], null, 2)}, ...];
+// ${W("h0b")}
 <NaiveTable data={data} />`}
           </Highlight>
           <NaiveTable data={randomData} />

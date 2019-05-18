@@ -10,12 +10,12 @@ export enum sortDir {
   asc = "asc",
   dsc = "dsc"
 }
-type compareFn = ((a: any, b: any) => number)
-type sortDirection = sortDir | boolean | compareFn ;
+type compareFn = (a: any, b: any) => number;
+type sortDirection = sortDir | boolean | compareFn;
 
-const defaultComparefn : compareFn = (a: any, b: any) => {
-  return `${a}`.localeCompare(`${b}`)
-}
+const defaultComparefn: compareFn = (a: any, b: any) => {
+  return `${a}`.localeCompare(`${b}`);
+};
 
 const defaultTableStyle: React.CSSProperties = {
   display: "grid",
@@ -115,12 +115,13 @@ export interface TableConfigProps {
   includeIndex?: boolean;
   tableStyle?: React.CSSProperties;
   cellStyle?: React.CSSProperties;
+  className?: string;
 }
 
 interface TableConfigState {
   sortedData: DataObj[];
-  sortIndex?: number
-  sortDir?: sortDir
+  sortIndex?: number;
+  sortDir?: sortDir;
   headers: TableConfigHeader[];
   includeIndex: boolean;
   tableStyle: React.CSSProperties;
@@ -163,15 +164,15 @@ const headerColumnWidths = (headers: TableConfigHeader[]) =>
 const processSort = (data: DataObj[], headers: TableConfigHeader[]) => {
   const sortFn = (acc: DataObj[], header: TableConfigHeader): DataObj[] => {
     const { sort, dataKey } = header;
-    const key = dataKey || ''
+    const key = dataKey || "";
     if (sort === sortDir.asc) {
-      return acc.sort((a,b) => defaultComparefn(a[key] , b[key]));
+      return acc.sort((a, b) => defaultComparefn(a[key], b[key]));
     }
     if (sort === sortDir.dsc) {
-      return acc.sort((a,b) => -defaultComparefn(a[key] , b[key]));
+      return acc.sort((a, b) => -defaultComparefn(a[key], b[key]));
     }
-    if(typeof sort === 'function' ){
-      return acc.sort((a,b) => sort(a,b))
+    if (typeof sort === "function") {
+      return acc.sort((a, b) => sort(a, b));
     }
     return acc;
   };
@@ -195,7 +196,7 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   const incIndexHeader: TableConfigHeader[] = includeIndex ? [indexHeader] : [];
   const incHeaders = props.headers ? props.headers : inferHeadersFromData(data);
   const headers = [...incIndexHeader, ...incHeaders];
-  const sortedData = processSort(data, headers)
+  const sortedData = processSort(data, headers);
   return {
     headers,
     sortedData,
@@ -205,13 +206,14 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   };
 };
 
-
 /**
  * NaiveTable - a dumb simple naive React data table component
  * @param {NaiveTableProps} props
  * @returns
  */
-export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) => {
+export const NaiveTable: React.FC<NaiveTableProps> = (
+  props: NaiveTableProps
+) => {
   const initState = buildInititalState(props);
   // useState hook - rule of thumb is to call the useState hook early and once during execution
   const [state, setState] = useState(initState);
@@ -265,7 +267,7 @@ export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) 
   ) => {
     const { dataKey, render } = header;
     // if a data render function was specified, use that
-    const renderRow = render || defaultRenderFunc;
+    const renderCell = render || defaultRenderFunc;
     // if a datakey isn't provided
     const dataVal: any = !dataKey
       ? // supply the current row dataObject
@@ -279,7 +281,8 @@ export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) 
         dataObj[dataKey];
     return (
       <span key={index} style={cellStyle}>
-        {renderRow(dataVal)}
+        {/* extra spacing after rendering the cell */}
+        {renderCell(dataVal)}{" "}
       </span>
     );
   };
@@ -288,13 +291,11 @@ export const NaiveTable : React.FC<NaiveTableProps>  = (props: NaiveTableProps) 
     tableData: DataObj,
     indexr: number
   ) => tableHeaders.map(renderDataRow(tableData, indexr));
-  // this our rendered data
-  const renderTable = (
-    <div style={gridStyle}>
+
+  return (
+    <div className={props.className || ""} style={gridStyle}>
       {headers.map(renderHeader)}
       {sortedData.map(renderDataRows(headers))}
     </div>
   );
-  return <div className="naivetable">{renderTable}</div>;
-}
-
+};

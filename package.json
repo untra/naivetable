@@ -40,6 +40,7 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-react": "^7.0.0",
+    "@cypress/webpack-preprocessor": "^4.0.3",
     "@types/chai": "^4.1.7",
     "@types/lodash": "^4.14.120",
     "@types/mocha": "^5.2.5",
@@ -62,6 +63,7 @@
     "react-highlight": "0.12.0",
     "react-router-dom": "5.0.0",
     "react-scripts": "3.0.0",
+    "ts-loader": "^6.0.0",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
     "typedoc": "^0.14.2",

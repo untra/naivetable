@@ -32,6 +32,7 @@
   "videosFolder": "cypress/videos",
   "viewportHeight": 660,
   "viewportWidth": 1000,
+  "sourceType": "module",
   "waitForAnimations": true,
   "watchForFileChanges": true
 }

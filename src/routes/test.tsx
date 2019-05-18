@@ -6,6 +6,7 @@
  * tslint:disable-next-line: no-implicit-dependencies
  */
 import React from "react";
+import varietyofDataTypesData from "../content/varietyOfTypesData.json"
 // import { NaiveTable, TableConfigHeader } from "@untra/naivetable"
 import { NaiveTable, TableConfigHeader } from "../NaiveTable";
 
@@ -19,37 +20,6 @@ const thisGithubPage =
 
 // as part of reading this, you may also want to check out that cypress page:
 const thatCypressPage = "https://dashboard.cypress.io/#/projects/wrytfx/runs";
-
-const varietyofDataTypesData = [
-  {
-    numbers: 1,
-    strings: "2",
-    floats: 3.1,
-    existential: true,
-    arrays: ["of", "strings"]
-  },
-  {
-    numbers: 4,
-    strings: "5",
-    floats: 6.28921,
-    existential: false,
-    arrays: [420, 1.618, -69]
-  },
-  {
-    numbers: 7,
-    strings: "6",
-    floats: -9.329088,
-    existential: null,
-    arrays: ["mixed", 93.3, true, null]
-  },
-  {
-    numbers: 10,
-    strings: "11",
-    floats: 12.48721296,
-    existential: undefined,
-    arrays: []
-  }
-];
 
 const nameData = [
   { a: "alex", b: 12, c: 82.56 },
@@ -181,13 +151,13 @@ export default class Test extends React.Component {
           It should be able to render a variety of different javascript data
           types
         </h4>
-        <NaiveTable data={varietyofDataTypesData} />
+        <NaiveTable className={'test1'} data={varietyofDataTypesData} />
         <h4>It should be able to render an index left adjacent of the data</h4>
-        <NaiveTable data={nameData} includeIndex={true} />
+        <NaiveTable className={'test2'} data={nameData} includeIndex={true} />
         <h4>It should be able to render a table with custom headers</h4>
-        <NaiveTable data={nameData} headers={nameHeaders} />
+        <NaiveTable className={'test3'} data={nameData} headers={nameHeaders} />
         <h4>It should be able to render individual styling on each header</h4>
-        <NaiveTable data={nameData} headers={styledHeaders} />
+        <NaiveTable className={'test4'} data={nameData} headers={styledHeaders} />
         <h4>It should be able to render individual styling for the table</h4>
         {"TODO"}
         <h4>It should be able to render individual styling for each cell</h4>
@@ -197,9 +167,9 @@ export default class Test extends React.Component {
         <h4>It should display sorted column data sorted correctly</h4>
         {"TODO"}
         <h4>It should be able to render empty data</h4>
-        <NaiveTable data={[]} />
+        <NaiveTable className={'test5'} data={[]} />
         <h4>It should be able to render a data of one</h4>
-        <NaiveTable data={[{ of: "one" }]} />
+        <NaiveTable className={'test6'} data={[{ of: "one" }]} />
       </div>
     );
   }
