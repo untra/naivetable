@@ -61,7 +61,6 @@ export default class Home extends React.Component<HomeScreenProps> {
           <span>
             <h4>
               v{version} -{" "}
-              <a href="https://naivetable.untra.io/docs">Documentation</a> -{" "}
               <Link to="/test">Tests</Link>-{" "}
               <a href="https://github.com/untra/naivetable">Github</a> -{" "}
               <a href="https://www.npmjs.com/package/@untra/naivetable">NPM</a> -{" "}

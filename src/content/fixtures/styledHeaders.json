@@ -1,0 +1,55 @@
+[
+  { "label": "name", "dataKey": "a", "style": { "backgroundColor": "red" } },
+  { "label": "age", "dataKey": "b", "style": { "backgroundColor": "green" } },
+  { "label": "mana", "dataKey": "c", "style": { "backgroundColor": "blue" } },
+  {
+    "label": "missing",
+    "dataKey": "",
+    "style": { "backgroundColor": "yellow", "opacity": 0.5 }
+  },
+  {
+    "label": "stretch index",
+    "dataKey": "'index'",
+    "style": {
+      "backgroundColor": "red",
+      "transform": "scale(2, 0.5)",
+      "color": "white"
+    }
+  },
+  {
+    "label": "flip index",
+    "dataKey": "'index'",
+    "style": {
+      "backgroundColor": "yellow",
+      "transform": "rotate(0.5turn)",
+      "color": "white"
+    }
+  },
+  {
+    "label": "skew index",
+    "dataKey": "'index'",
+    "style": {
+      "backgroundColor": "green",
+      "transform": "skew(30deg, 20deg)",
+      "color": "white"
+    }
+  },
+  {
+    "label": "shift index",
+    "dataKey": "'index'",
+    "style": {
+      "backgroundColor": "cyan",
+      "transform": "translate(120px, 50%)",
+      "color": "black"
+    }
+  },
+  {
+    "label": "keanu index",
+    "dataKey": "'index'",
+    "style": {
+      "backgroundColor": "blue",
+      "transform": "matrix(1, 2, 3, 4, 5, 6)",
+      "color": "black"
+    }
+  }
+]

@@ -24,7 +24,6 @@
     "./src/**/*"
   ],
   "exclude": [
-    "**/*.spec.*",
     "**/*.js.*"
   ],
   "compileOnSave": true

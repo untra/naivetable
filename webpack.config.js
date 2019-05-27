@@ -3,6 +3,15 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.ts$/,
+                exclude: [/node_modules/],
+                use: [
+                    {
+                        loader: 'ts-loader'
+                    }
+                ]
+            },
+            {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
@@ -19,10 +28,10 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new HtmlWebPackPlugin({
-            template: './src/index.html',
-            filename: './index.html'
-        })
-    ]
+    // plugins: [
+    //     new HtmlWebPackPlugin({
+    //         template: './src/index.html',
+    //         filename: './index.html'
+    //     })
+    // ]
 }

@@ -8,6 +8,19 @@
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
 
+// from: https://github.com/cypress-io/cypress/issues/1859#issuecomment-476457189
+const browserify = require('@cypress/browserify-preprocessor')
+
+module.exports = (on, config) => {
+    `${config} is not used`
+    const options = browserify.defaultOptions
+    options.browserifyOptions.extensions.push('.ts', '.tsx')
+    const babelifyConfig = options.browserifyOptions.transform[1][1]
+    babelifyConfig.presets.push(require.resolve('@babel/preset-typescript'))
+    babelifyConfig.extensions = ['.js', '.jsx', '.ts', '.tsx']
+
+    on('file:preprocessor', browserify(options))
+}
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
