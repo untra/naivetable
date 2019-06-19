@@ -6,6 +6,7 @@
  * tslint:disable-next-line: no-implicit-dependencies
  */
 import React from "react";
+import llanowarDataJSON from "../content/fixtures/llanowar.json";
 import nameDataJSON from "../content/fixtures/nameData.json";
 import styledHeadersJSON from "../content/fixtures/styledHeaders.json";
 import varietyofDataTypesDataJSON from "../content/fixtures/varietyOfTypesData.json";
@@ -21,10 +22,12 @@ const thisGithubPage =
 // and it would certainly be a pleasure to shake your hand one day,
 // and tell you personally _just how cool you are_
 
-// you may also want to check out that cypress page:
+// While you're here you may also want to check out that cypress page:
 const thatCypressPage = "https://dashboard.cypress.io/#/projects/wrytfx/runs";
 
 // redefine the data fixtures to accomodate prefered typings
+
+const llanowarData: DataObj[] = llanowarDataJSON;
 
 const varietyofDataTypesData: DataObj[] = varietyofDataTypesDataJSON;
 
@@ -32,8 +35,33 @@ const styledHeaders: TableConfigHeader[] = styledHeadersJSON;
 
 const nameData: DataObj[] = nameDataJSON;
 
-// complex headers with custom rendering
+// the secret sauce to display no headers and custom render:
+// use css and `dsiplay: none` for the header style
+const mtgHeaders: TableConfigHeader[] = [{
+  label: "",
+  dataKey: "",
+  style: { display: 'none'},
+  render: (val : any) => {
+    const { image_uris, name } = val
+    return (<img width={250} height={345} alt={name} src={`${image_uris ? image_uris.png : ''}`} />)
+  }
+},{
+  label: "",
+  dataKey: "",
+  style: { display: 'none'},
+  render: (val : any) => {
+    const { name, mana_cost, type_line, oracle_text, power, toughness, flavor_text } = val
+    return (<div>
+      <h4>{name} {mana_cost}</h4>
+      <p>{type_line}</p>
+      <p>{oracle_text}</p>
+      <p>{flavor_text}</p>
+      <strong>{power}/{toughness}</strong>
+    </div>)
+  }
+}]
 
+// complex headers with custom rendering
 export const nameHeaders = [
   // change the rendered header text with the 'label' parameter
   { label: "name", dataKey: "a" },
@@ -127,6 +155,10 @@ export default class Test extends React.Component {
         <NaiveTable className={"test9"} data={[]} />
         <h4>#10 It should be able to render a data of one</h4>
         <NaiveTable className={"test10"} data={[{ of: "one" }]} />
+        <h4>#11 You don't have to render any headers at</h4>
+        <NaiveTable className={"test11"} data={nameData} headers={false} />
+        <h4>#12 You can render a Magic The Gathering card</h4>
+        <NaiveTable className={"test11"} data={llanowarData} headers={mtgHeaders} />
       </div>
     );
   }

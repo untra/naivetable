@@ -54,7 +54,7 @@ export default class Home extends React.Component<HomeScreenProps> {
         <div className="wrapper">
           <h1><span role="img" aria-label="Bento">🍱</span> NaiveTable</h1>
           <h2>
-            {W("w1")} {W("w2")} {W("w9")} {W("w3")}{" "}{`Array<T>`} {W("w7")}
+            {W("w1")} {W("w2")} {W("w3")}{" "}{`Array<T>`} {W("w7")}
             {W("w4")}{" "}
           </h2><h2><a href="https://reactjs.org/">React</a> <a href="https://reactjs.org/docs/hooks-intro.html/">(Hooks)</a>  {W("w8")}</h2>
 

@@ -111,7 +111,7 @@ const defaultHeaders: TableConfigHeader = {
  */
 export interface TableConfigProps {
   data: DataObj[];
-  headers?: TableConfigHeader[];
+  headers?: TableConfigHeader[]|false;
   includeIndex?: boolean;
   tableStyle?: React.CSSProperties;
   cellStyle?: React.CSSProperties;
@@ -215,11 +215,15 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
   props: NaiveTableProps
 ) => {
   const initState = buildInititalState(props);
+  // whether the headers should be rendered at all
+  const shouldRenderHeaders = props.headers === false ? false : true
+  // whether the data rows should be rendered
+  const shouldRenderDatarows = true
   // useState hook - rule of thumb is to call the useState hook early and once during execution
   const [state, setState] = useState(initState);
   // destructure the properties from state
   const { headers, sortedData, tableStyle, cellStyle } = state;
-  // infers the grid widths of the headers
+  // infers the grid widths of the headers (even if not rendering headers we need this)
   const gridTemplateColumns = headerColumnWidths(headers);
   // the gridStyle is injected into the table dynamically
   const gridStyle = { ...tableStyle, gridTemplateColumns };
@@ -294,8 +298,8 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
 
   return (
     <div className={props.className || ""} style={gridStyle}>
-      {headers.map(renderHeader)}
-      {sortedData.map(renderDataRows(headers))}
+      {shouldRenderHeaders ? headers.map(renderHeader) : null}
+      {shouldRenderDatarows ? sortedData.map(renderDataRows(headers)) : null}
     </div>
   );
 };
