@@ -14,6 +14,26 @@ const styledHeaders: TableConfigHeader[] = styledHeadersJSON;
 const nameData: DataObj[] = nameDataJSON;
 
 context("Actions", () => {
+  const shouldcontainCountedIndex = ({
+    $container,
+    data,
+    headers = [],
+  }: {
+    $container: JQuery<HTMLElement>;
+    data: DataObj[];
+    headers?: TableConfigHeader[];
+  }) => {
+    const firstElement = data[0] || {}
+    const includedIndex = 1
+    const numOfDataColumns = Object.keys(firstElement).length
+    const numOfHeaderColumns = headers.length
+    const numOfColumns = (numOfHeaderColumns || numOfDataColumns) + includedIndex;
+    return cy.wrap($container).children().each((child, index) => {
+      if (index > 1 && (index % numOfColumns) === 0) {
+        cy.wrap(child).should('contain', `${(index / numOfColumns)}`)
+      }
+    })
+  }
   const shouldContainChildren = ({
     $container,
     data,
@@ -59,15 +79,17 @@ context("Actions", () => {
   });
 
   context("test1: It should be able to render a variety of data types", () => {
+
     it("should contain all of the data values", () => {
       cy.get(".test1").as('test1')
       cy.get('@test1')
         .then(($container) => shouldContainData({ $container, data: varietyofDataTypesData }))
-
+    });
+    it("should contain all of the its children", () => {
+      cy.get(".test1").as('test1')
       cy.get('@test1')
         .then(($container) => shouldContainChildren({ $container, data: varietyofDataTypesData }))
-
-    });
+    })
   });
   context("test2: It should be able to render an index left adjacent of the data", () => {
     it("should contain all of the data values", () => {
@@ -76,7 +98,8 @@ context("Actions", () => {
         .then(($container) => shouldContainData({ $container, data: nameData, includeIndex: true }))
       cy.get('@test2')
         .then(($container) => shouldContainChildren({ $container, data: nameData, includeIndex: true }))
-
+      cy.get('@test2')
+        .then(($container) => shouldcontainCountedIndex({ $container, data: nameData }))
     });
   });
   context("test3: It should be able to render a table with custom headers", () => {
