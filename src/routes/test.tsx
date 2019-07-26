@@ -6,6 +6,7 @@
  * tslint:disable-next-line: no-implicit-dependencies
  */
 import React from "react";
+import flatDataJSON from "../content/fixtures/flat.json"
 import llanowarDataJSON from "../content/fixtures/llanowar.json";
 import nameDataJSON from "../content/fixtures/nameData.json";
 import styledHeadersJSON from "../content/fixtures/styledHeaders.json";
@@ -40,16 +41,16 @@ const nameData: DataObj[] = nameDataJSON;
 const mtgHeaders: TableConfigHeader[] = [{
   label: "",
   dataKey: "",
-  style: { display: 'none'},
-  render: (val : any) => {
+  style: { display: 'none' },
+  render: (val: any) => {
     const { image_uris, name } = val
     return (<img width={250} height={345} alt={name} src={`${image_uris ? image_uris.png : ''}`} />)
   }
-},{
+}, {
   label: "",
   dataKey: "",
-  style: { display: 'none'},
-  render: (val : any) => {
+  style: { display: 'none' },
+  render: (val: any) => {
     const { name, mana_cost, type_line, oracle_text, power, toughness, flavor_text } = val
     return (<div>
       <h4>{name} {mana_cost}</h4>
@@ -83,7 +84,7 @@ export const nameHeaders = [
     render: (val: any) => (
       <h4>{`${JSON.stringify(val.a)} is ${val.c > 90 ? "really" : ""} ${
         val.c > 50 ? "smart" : "dumb"
-      }`}</h4>
+        }`}</h4>
     )
   },
   // you can have more headers than keys in your dataObjects, btw ;)
@@ -112,7 +113,7 @@ export default class Test extends React.Component {
           View this page and tests at <a href={thisGithubPage}>Github.com</a>
         </h3>
         <h3>
-        View the test results at <a href={thatCypressPage}>Cypress.io</a></h3>
+          View the test results at <a href={thatCypressPage}>Cypress.io</a></h3>
         <p>
           This page is a demonstration of the NaiveTable component used in a
           variety of ways:
@@ -150,7 +151,11 @@ export default class Test extends React.Component {
         <h4>#7 It should be able to display sortable columns</h4>
         {"TODO"}
         <h4>#8 It should display sorted column data sorted correctly</h4>
-        {"TODO"}
+        <NaiveTable className={"test8"} data={flatDataJSON} headers={[
+          { label: 'a', dataKey: 'a', sort: true },
+          { label: 'b', dataKey: 'b', sort: "asc" },
+          { label: 'c', dataKey: 'c' }
+        ]} />
         <h4>#9 It should be able to render empty data</h4>
         <NaiveTable className={"test9"} data={[]} />
         <h4>#10 It should be able to render a data of one</h4>

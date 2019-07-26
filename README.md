@@ -74,9 +74,9 @@ _Single Responsibility:_ This package does one thing, and does it well.
 
 _Open / Close :_ The rendering and behavior of NaiveTable columns can be extended, and the code is open source.
 
-_Liskov Substitution:_ By rendering arbitrary `DataObjects`, and accepting anonymous functions to return their JSX.Elements allow for "subtype" correctness.
+_Liskov Substitution:_ By rendering arbitrary `DataObjects`, and accepting anonymous functions to return their `JSX.Elements` allow for "subtype" correctness.
 
-_Interface Segregation:_ Inputs to the function are minimized to tolerate a bare-minimum, and accept more features as desired.
+_Interface Segregation:_ Inputs to the function are minimized to tolerate a bare-minimum, and accept only more features as desired.
 
 _Dependency Inversion:_ Concrete details such as `data` and `headers` are input into higher-level abstractions.
 
@@ -85,6 +85,7 @@ _Dependency Inversion:_ Concrete details such as `data` and `headers` are input 
 * _It's super dumb._ NaiveTable will render data naively (duh) by using a series of nested divs, and as such is not the most effective solution with large amounts of data. While NaiveTable will render more than a thousand rows with ease, more than a hundred and I would recommend a more dynamic table solution with virtual scroll. Similarly, I would not recommend this table for the following needs in a table:
   * sorting on multiple columns
   * rendering a large number of rows
+  * dynamic 'fetched' data aka virtual scrolling
 
 * _It wants consistency._ NaiveTable likes structured  `Array<T>` of `{ [index: string]: any;}` data shapes. While this should be most use cases, this means unstructured data may not be render consistently.
 

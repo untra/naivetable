@@ -1,6 +1,7 @@
 /// <reference types="Cypress" />
 // tslint:disable-next-line: no-var-requires
 // cy.log(varietyofDataTypesData)
+import flatDataJSON from '../../src/content/fixtures/flat.json'
 import nameDataJSON from '../../src/content/fixtures/nameData.json'
 import styledHeadersJSON from '../../src/content/fixtures/styledHeaders.json'
 import varietyOfDataTypesJSON from '../../src/content/fixtures/varietyOfTypesData.json'
@@ -73,9 +74,9 @@ context("Actions", () => {
 
   beforeEach(() => {
     // for integration tests
-    cy.visit('https://naivetable.untra.io/#/test')
+    // cy.visit('https://naivetable.untra.io/#/test')
     // for local development
-    // cy.visit("http://localhost:3000/#/test");
+    cy.visit("http://localhost:3000/#/test");
   });
 
   context("test1: It should be able to render a variety of data types", () => {
@@ -148,13 +149,26 @@ context("Actions", () => {
         .then(($container) => shouldContainChildren({ $container, data: nameData }))
     });
   });
-  context.skip("test8: It should display sorted column data sorted correctly", () => {
+  context("test8: It should display sorted column data sorted correctly", () => {
     it("should contain all of the data values", () => {
       cy.get(".test8").as('test8')
       cy.get('@test8')
-        .then(($container) => shouldContainData({ $container, data: nameData }))
+        .then(($container) => shouldContainData({ $container, data: flatDataJSON }))
       cy.get('@test8')
-        .then(($container) => shouldContainChildren({ $container, data: nameData }))
+        .then(($container) => shouldContainChildren({ $container, data: flatDataJSON }))
+      cy.get('.test8 > :nth-child(5)')
+        .should('contain', '1')
+      cy.get('.test8 > :nth-child(8)')
+        .should('contain', '2')
+      cy.get('.test8 > :nth-child(11)')
+        .should('contain', '3')
+      cy.get('.test8 > :nth-child(14)')
+        .should('contain', '4')
+      cy.get('.test8 > :nth-child(17)')
+        .should('contain', '5')
+    });
+    it.skip("should click the sort button and it sorts", () => {
+      cy.get(".test8").as('test8')
     });
   });
   context("test9: It should be able to render empty data", () => {

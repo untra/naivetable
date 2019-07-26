@@ -1,17 +1,8 @@
 import React, { useState } from "react";
 const indexDataKey = "'index'";
 
-/**
- * sortDir - which direction the table should sort in
- * @export
- * @enum {string}
- */
-export enum sortDir {
-  asc = "asc",
-  dsc = "dsc"
-}
 type compareFn = (a: any, b: any) => number;
-type sortDirection = sortDir | boolean | compareFn;
+type sortDirection = "asc" | "dsc" | boolean | compareFn;
 
 const defaultComparefn: compareFn = (a: any, b: any) => {
   return `${a}`.localeCompare(`${b}`);
@@ -38,10 +29,10 @@ const defaultHeaderStyle: React.CSSProperties = {
 };
 
 const cssSortStyle: React.CSSProperties = {
-  border: "solid black",
+  border: "4px solid black",
   borderWidth: "0 3px 3px 0",
   display: "inline-block",
-  padding: "3px",
+  padding: "6px 4px 4px 6px",
   float: "right"
 };
 
@@ -111,7 +102,7 @@ const defaultHeaders: TableConfigHeader = {
  */
 export interface TableConfigProps {
   data: DataObj[];
-  headers?: TableConfigHeader[]|false;
+  headers?: TableConfigHeader[] | false;
   includeIndex?: boolean;
   tableStyle?: React.CSSProperties;
   cellStyle?: React.CSSProperties;
@@ -119,9 +110,8 @@ export interface TableConfigProps {
 }
 
 interface TableConfigState {
-  sortedData: DataObj[];
   sortIndex?: number;
-  sortDir?: sortDir;
+  sortDir: "asc" | "dsc";
   headers: TableConfigHeader[];
   includeIndex: boolean;
   tableStyle: React.CSSProperties;
@@ -161,23 +151,34 @@ const headerColumnWidths = (headers: TableConfigHeader[]) =>
   headers.reduce((acc, header) => `${acc} ${header.width || "auto"} `, "");
 
 // processSort will sort provided data according to the provided headers
-const processSort = (data: DataObj[], headers: TableConfigHeader[]) => {
-  const sortFn = (acc: DataObj[], header: TableConfigHeader): DataObj[] => {
-    const { sort, dataKey } = header;
-    const key = dataKey || "";
-    if (sort === sortDir.asc) {
-      return acc.sort((a, b) => defaultComparefn(a[key], b[key]));
+const processSort = (data: DataObj[], headers: TableConfigHeader[], sortDir: "asc" | "dsc", sortIndex: number | undefined) => {
+  if (sortIndex === undefined) {
+    return data
+  }
+  const header = headers[sortIndex]
+  const { sort, dataKey } = header;
+  const comparison = (typeof sort === "function") ? sort : defaultComparefn
+  const key = dataKey || "";
+  const sortFn = (a: DataObj, b: DataObj): number => {
+    if (sortDir === "asc") {
+      return comparison(a[key], b[key]);
     }
-    if (sort === sortDir.dsc) {
-      return acc.sort((a, b) => -defaultComparefn(a[key], b[key]));
+    else {
+      return -comparison(a[key], b[key]);
     }
-    if (typeof sort === "function") {
-      return acc.sort((a, b) => sort(a, b));
-    }
-    return acc;
   };
-  return headers.reduce(sortFn, data);
+  return data.sort(sortFn)
 };
+
+const inferInitialSort = (headers: TableConfigHeader[]): [("asc" | "dsc")?, number?] => {
+  let currentIndex = -1
+  const getSort = (header: TableConfigHeader) => (header.sort === true && "asc") || (header.sort === "asc" && "asc") || (header.sort === "dsc" && "dsc") || undefined
+  const getIndex = (header: TableConfigHeader) => header.sort ? currentIndex : undefined
+  return headers.reduce(([dir, index], header) => {
+    currentIndex += 1
+    return [dir || getSort(header), index || getIndex(header)]
+  }, [undefined as "asc" | "dsc" | undefined, undefined as number | undefined])
+}
 
 /**
  * Creates the initial NaiveTable state from the initial props
@@ -196,13 +197,15 @@ const buildInititalState = (props: NaiveTableProps): TableConfigState => {
   const incIndexHeader: TableConfigHeader[] = includeIndex ? [indexHeader] : [];
   const incHeaders = props.headers ? props.headers : inferHeadersFromData(data);
   const headers = [...incIndexHeader, ...incHeaders];
-  const sortedData = processSort(data, headers);
+  const [sortDirr, sortIndex] = inferInitialSort(headers)
+  const sortDir = sortDirr || "asc"
   return {
     headers,
-    sortedData,
     includeIndex,
     cellStyle,
-    tableStyle
+    tableStyle,
+    sortDir,
+    sortIndex
   };
 };
 
@@ -222,7 +225,7 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
   // useState hook - rule of thumb is to call the useState hook early and once during execution
   const [state, setState] = useState(initState);
   // destructure the properties from state
-  const { headers, sortedData, tableStyle, cellStyle } = state;
+  const { headers, tableStyle, cellStyle, sortIndex, sortDir } = state;
   // infers the grid widths of the headers (even if not rendering headers we need this)
   const gridTemplateColumns = headerColumnWidths(headers);
   // the gridStyle is injected into the table dynamically
@@ -232,7 +235,7 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
     const updatedHeaders = [...headers];
     const toggledHeader = updatedHeaders[index];
     const sortedDirection = toggledHeader.sort;
-    const sort = sortedDirection === sortDir.asc ? sortDir.dsc : sortDir.asc;
+    const sort: "asc" | "dsc" = sortedDirection === "asc" ? "dsc" : "asc";
     const updatedHeader = { ...toggledHeader, sort };
     updatedHeaders[index] = updatedHeader;
     return updatedHeaders;
@@ -242,9 +245,9 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
     const { sort, label, style } = header;
     const headerStyle = { ...defaultHeaderStyle, ...cellStyle, ...style };
     const arrow =
-      sort === sortDir.asc ? (
+      sort === "asc" ? (
         <i style={cssSortAsc} />
-      ) : sort === sortDir.dsc ? (
+      ) : sort === "dsc" ? (
         <i style={cssSortDsc} />
       ) : sort === true ? (
         <i style={cssSortable} />
@@ -275,12 +278,12 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
     // if a datakey isn't provided
     const dataVal: any = !dataKey
       ? // supply the current row dataObject
-        dataObj
+      dataObj
       : // otherwise if the key is the special 'index' dataKey
       dataKey === indexDataKey
-      ? // supply the offset row index
+        ? // supply the offset row index
         rowIndex + 1
-      : // otherwise supply the row data at the given dataKey
+        : // otherwise supply the row data at the given dataKey
         // emphasize: we do want return 'undefined' here if undefined
         dataObj[dataKey];
     return (
@@ -296,10 +299,13 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
     indexr: number
   ) => tableHeaders.map(renderDataRow(tableData, indexr));
 
+  const renderedHeaders = shouldRenderHeaders ? headers.map(renderHeader) : null
+  const renderedRows = shouldRenderDatarows ? processSort(props.data, headers, sortDir, sortIndex).map(renderDataRows(headers)) : null
+
   return (
     <div className={props.className || ""} style={gridStyle}>
-      {shouldRenderHeaders ? headers.map(renderHeader) : null}
-      {shouldRenderDatarows ? sortedData.map(renderDataRows(headers)) : null}
+      {renderedHeaders}
+      {renderedRows}
     </div>
   );
 };
