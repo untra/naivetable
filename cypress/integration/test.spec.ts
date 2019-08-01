@@ -74,9 +74,9 @@ context("Actions", () => {
 
   beforeEach(() => {
     // for integration tests
-    // cy.visit('https://naivetable.untra.io/#/test')
+    cy.visit('https://naivetable.untra.io/#/test')
     // for local development
-    cy.visit("http://localhost:3000/#/test");
+    // cy.visit("http://localhost:3000/#/test");
   });
 
   context("test1: It should be able to render a variety of data types", () => {
