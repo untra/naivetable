@@ -1,4 +1,5 @@
 [{
+    "local_image": "https://naivetable.untra.io/images/llanowar-elves.jpg",
     "shoutout": "special shoutout to scryfall for this little hunk of json",
     "shoutout_url": "https://scryfall.com/card/ema/175/llanowar-elves",
     "object": "card",
