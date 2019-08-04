@@ -24,17 +24,24 @@ const defaultCellStyle: React.CSSProperties = {
 };
 
 const defaultHeaderStyle: React.CSSProperties = {
+  position: "relative",
   backgroundColor: "lightgray",
   fontWeight: "bold"
 };
 
 const cssSortStyle: React.CSSProperties = {
-  border: "4px solid black",
-  borderWidth: "0 3px 3px 0",
-  display: "inline-block",
-  padding: "6px 4px 4px 6px",
-  float: "right"
+  border: "3px solid black",
+  borderWidth: "0 2px 2px 0",
+  position: "absolute",
+  padding: "5px 3px 3px 5px",
+  top: 6,
+  right: 6,
+  opacity: 0.5
 };
+
+const cssSortSelected: React.CSSProperties = {
+  opacity: 1.0
+}
 
 const cssSortAsc: React.CSSProperties = {
   ...cssSortStyle,
@@ -43,13 +50,8 @@ const cssSortAsc: React.CSSProperties = {
 
 const cssSortDsc: React.CSSProperties = {
   ...cssSortStyle,
-  transform: "rotate(45deg)"
-};
-
-const cssSortable: React.CSSProperties = {
-  ...cssSortStyle,
-  borderWidth: "0px 3px 0px 0px",
-  padding: "12px"
+  transform: "rotate(45deg)",
+  top: 12
 };
 
 /**
@@ -230,39 +232,32 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
   const gridTemplateColumns = headerColumnWidths(headers);
   // the gridStyle is injected into the table dynamically
   const gridStyle = { ...tableStyle, gridTemplateColumns };
-  // toggleHeader will sort the data by the header sort at the given index
-  const toggleHeader = (index: number) => {
-    const updatedHeaders = [...headers];
-    const toggledHeader = updatedHeaders[index];
-    const sortedDirection = toggledHeader.sort;
-    const sort: "asc" | "dsc" = sortedDirection === "asc" ? "dsc" : "asc";
-    const updatedHeader = { ...toggledHeader, sort };
-    updatedHeaders[index] = updatedHeader;
-    return updatedHeaders;
-  };
   // renderHeader will create a <span> for the given header at the designated index
   const renderHeader = (header: TableConfigHeader, index: number) => {
     const { sort, label, style } = header;
     const headerStyle = { ...defaultHeaderStyle, ...cellStyle, ...style };
-    const arrow =
-      sort === "asc" ? (
-        <i style={cssSortAsc} />
-      ) : sort === "dsc" ? (
-        <i style={cssSortDsc} />
-      ) : sort === true ? (
-        <i style={cssSortable} />
-      ) : null;
+    const indexSelected = sortIndex === index
+    const cssSortSelectedAsc = indexSelected && sortDir === "dsc" ? cssSortSelected : {}
+    const cssSortSelectedDsc = indexSelected && sortDir === "asc" ? cssSortSelected : {}
+    const upArrow =
+      sort ? (
+        <i style={{...cssSortAsc, ...cssSortSelectedAsc}} />
+      ) : null
+    const downArrow =
+      sort ? (
+        <i style={{...cssSortDsc, ...cssSortSelectedDsc}} />
+      ) : null
     // change creates the function called when a header sort is toggled
     const change = (index: number) => () => {
-      const headers = toggleHeader(index);
-      setState({ ...state, headers });
+      const dir = (sortIndex === index && sortDir === "asc") ? "dsc" : "asc"
+      setState({ ...state, headers, sortIndex: index, sortDir: dir });
     };
     // if sort is not enabled, clicking should noop, else invoke change
     const onClick = !sort ? () => null : change(index);
     // here is the assembled header rendering
     return (
       <span key={index} style={headerStyle} onClick={onClick}>
-        {label} {arrow}
+        {label} {upArrow} {downArrow}
       </span>
     );
   };
