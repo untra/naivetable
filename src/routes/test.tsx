@@ -56,7 +56,7 @@ const mtgHeaders: TableConfigHeader[] = [{
       <h4>{name} {mana_cost}</h4>
       <p>{type_line}</p>
       <p>{oracle_text}</p>
-      <p>{flavor_text}</p>
+      <p style={{fontStyle: 'italic'}}>{flavor_text}</p>
       <strong>{power}/{toughness}</strong>
     </div>)
   }
