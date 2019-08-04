@@ -43,8 +43,8 @@ const mtgHeaders: TableConfigHeader[] = [{
   dataKey: "",
   style: { display: 'none' },
   render: (val: any) => {
-    const { image_uris, name } = val
-    return (<img width={250} height={345} alt={name} src={`${image_uris ? image_uris.png : ''}`} />)
+    const  { local_image, name } = val
+    return (<img width={250} height={345} alt={name} src={local_image} />)
   }
 }, {
   label: "",
