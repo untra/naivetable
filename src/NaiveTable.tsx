@@ -64,7 +64,7 @@ export interface DataObj {
 }
 
 /**
- * TableConfigHeader - proprties of a NaiveTable header
+ * TableConfigHeader - properties of a NaiveTable header
  * @export
  * @interface TableConfigHeader
  */
@@ -241,11 +241,11 @@ export const NaiveTable: React.FC<NaiveTableProps> = (
     const cssSortSelectedDsc = indexSelected && sortDir === "asc" ? cssSortSelected : {}
     const upArrow =
       sort ? (
-        <i style={{...cssSortAsc, ...cssSortSelectedAsc}} />
+        <i style={{ ...cssSortAsc, ...cssSortSelectedAsc }} />
       ) : null
     const downArrow =
       sort ? (
-        <i style={{...cssSortDsc, ...cssSortSelectedDsc}} />
+        <i style={{ ...cssSortDsc, ...cssSortSelectedDsc }} />
       ) : null
     // change creates the function called when a header sort is toggled
     const change = (index: number) => () => {
