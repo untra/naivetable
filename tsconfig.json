@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "module": "esnext",
-    "jsx": "preserve",
+    "module": "commonjs",
+    "jsx": "react",
     "resolveJsonModule": true,
     "strict": true,
     "esModuleInterop": true,
@@ -17,8 +17,7 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "allowJs": true,
-    "isolatedModules": true,
-    "noEmit": true
+    "isolatedModules": false
   },
   "include": [
     "./src/**/*"
