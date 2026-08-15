@@ -1,9 +1,20 @@
 # 🍱 NaiveTable
 ## a dumb, simple, naive [React](https://reactjs.org/) `Array<T>` data table component
 
-**NaiveTable** is a straightforward React `^16.8.5` functional module that can be used to quickly render a table from an array of objects.
+[![npm version](https://img.shields.io/npm/v/%40untra%2Fnaivetable?logo=npm&color=cb3837)](https://www.npmjs.com/package/@untra/naivetable)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+**[Live demo: naivetable.untra.io](https://naivetable.untra.io)**
+
+**NaiveTable** is a straightforward React functional component (hooks; requires React >=18 as a peer dependency) that can be used to quickly render a table from an array of objects.
 
 It turns a JSON array of objects (typescript type `Array<T>` of `type DataObject = { [index: string]: any;}`) into a `<span>` table.
+
+## Installation
+
+```sh
+npm install @untra/naivetable
+```
 
 ## Usage
 
@@ -66,7 +77,7 @@ const cellStyle  : React.CSSProperties = { ... }
 
 ## Design
 
-NaiveTable uses react 16.8.5 and hooks to create a straightforward functional JSX.Element react component.
+NaiveTable uses React hooks to create a straightforward functional JSX.Element React component.
 
 Despite not being written with classes, I kept the [**SOLID principles**](https://en.wikipedia.org/wiki/SOLID) in mind while designing this package:
 
@@ -82,14 +93,18 @@ _Dependency Inversion:_ Concrete details such as `data` and `headers` are input 
 
 ## Limitations
 
-* _It's super dumb._ NaiveTable will render data naively (duh) by using a series of nested divs, and as such is not the most effective solution with large amounts of data. While NaiveTable will render more than a thousand rows with ease, more than a hundred and I would recommend a more dynamic table solution with virtual scroll. Similarly, I would not recommend this table for the following needs in a table:
+* _It's super dumb._ NaiveTable will render data naively (duh) by using a series of nested divs, and as such is not the most effective solution with large amounts of data. While NaiveTable will render a few hundred rows with ease, at more than a thousand I would recommend a more dynamic table solution with virtual scroll. Similarly, I would not recommend this table for the following needs in a table:
   * sorting on multiple columns
   * rendering a large number of rows
   * dynamic 'fetched' data aka virtual scrolling
 
-* _It wants consistency._ NaiveTable likes structured  `Array<T>` of `{ [index: string]: any;}` data shapes. While this should be most use cases, this means unstructured data may not be render consistently.
+* _It wants consistency._ NaiveTable likes structured `Array<T>` of `{ [index: string]: any;}` data shapes. While this should cover most use cases, this means unstructured data may not render consistently. aim for flat data shapes.
 
 * _It will reasonably assume what you meant._ NaiveTable's creator has made some assumptions about what you want the component to behave like, such as default rendering `any` data values into `<p></p>` tags, defaulting column widths to `auto`, etc. It is not magic, just trying its best to please.
 
+## Related: naiveparallel
+
+NaiveTable renders your `Array<T>` data row by row as a table. Its sibling component, [**🪒 naiveparallel**](https://github.com/untra/naiveparallel), renders the same `Array<T>` data as an interactive parallel-coordinates plot.
+
 # Copyright
-Copyright (c) Samuel Volin 2019. License: MIT
+Copyright (c) Samuel Volin 2019-2026. License: MIT

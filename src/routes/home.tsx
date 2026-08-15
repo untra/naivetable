@@ -54,9 +54,8 @@ export default class Home extends React.Component<HomeScreenProps> {
         <div className="wrapper">
           <h1><span role="img" aria-label="Bento">🍱</span> NaiveTable</h1>
           <h2>
-            {W("w1")} {W("w2")} {W("w3")}{" "}{`Array<T>`} {W("w7")}
-            {W("w4")}{" "}
-            <a href="https://reactjs.org/">React</a> <a href="https://reactjs.org/docs/hooks-intro.html/">(Hooks)</a>  {W("w8")}</h2>
+            a dumb, simple, naive {`Array<T>`} data table component for{" "}
+            <a href="https://reactjs.org/">React</a> <a href="https://reactjs.org/docs/hooks-intro.html/">(Hooks)</a></h2>
 
           <span>
             <h3>
@@ -64,13 +63,16 @@ export default class Home extends React.Component<HomeScreenProps> {
               <Link to="/test">Tests</Link>-{" "}
               <a href="https://github.com/untra/naivetable">Github</a> -{" "}
               <a href="https://www.npmjs.com/package/@untra/naivetable">NPM</a> -{" "}
-              <a href="https://dashboard.cypress.io/#/projects/wrytfx/runs">Cypress</a>
+              <a href="https://dashboard.cypress.io/#/projects/wrytfx/runs">Cypress</a> -{" "}
+              <a href="https://naiveparallel.untra.io">
+                <span role="img" aria-label="Razor">🪒</span> NaiveParallel
+              </a>
             </h3>
           </span>
           <hr />
           <div style={{
             padding: '50px',
-            color: 'dark gray',
+            color: '#454545',
             textAlign: 'center'
           }}>
             <h4>
@@ -96,6 +98,12 @@ const data = [${JSON.stringify(randomData[0], null, 2)}, ...];
 <NaiveTable data={data} />`}
           </Highlight>
           <NaiveTable data={randomData} />
+          <p>
+            Need the same data as a chart instead of a table? Try{" "}
+            <a href="https://naiveparallel.untra.io">
+              <span role="img" aria-label="Razor">🪒</span> naiveparallel
+            </a>.
+          </p>
         </div>
       </div>
     );
