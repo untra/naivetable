@@ -5,7 +5,6 @@ ssiittee/
 .github/
 .vscode/
 videos/
-cypress/integration/examples/
 docs/
 build/
 yarn-error.log

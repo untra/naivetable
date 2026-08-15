@@ -8,12 +8,10 @@ import test from "./test";
 // NOTE: see https://medium.com/@Dragonza/react-router-problem-with-gh-pages-c93a5e243819
 // for explanation of BrowserRouter hook-up
 
-const reload = () => window.location.reload();
-
 export default () => (
   <HashRouter basename="/">
   <Switch>
-    <Route path="/test" component={test} onEnter={reload} />
+    <Route path="/test" component={test} />
     <Route exact path="/" component={home} />
     <Route
       component={() => (

@@ -6,4 +6,3 @@ coverage/
 .github/
 .vscode/
 *.tgz
-cypress/
